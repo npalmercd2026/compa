@@ -953,7 +953,9 @@
             }
 
             .main-title {
-                font-size: clamp(2.4rem, 11vw, 3.4rem);
+                /* Sized so AMIGOS spans the full screen width in Anton */
+                font-size: 28vw;
+                line-height: 0.92;
             }
 
             .description {
@@ -1045,11 +1047,24 @@
                 font-size: 0.85rem;
             }
 
-            /* Floaters read as clutter on a small screen */
-            .berries-container,
-            .berries-container-bg,
-            .leaves-container {
+            /* Citrus floaters come back on mobile — smaller, pushed to the edges
+               so they never sit on the copy or the cans */
+            .b1 { width: 64px; height: 64px; top: 3%; left: -4%; }
+            .b2 { width: 44px; height: 44px; top: 30%; left: 86%; }
+            .b4 { width: 52px; height: 52px; top: 10%; left: 80%; }
+            .b5 { width: 48px; height: 48px; top: 68%; left: -3%; }
+            .b6 { width: 58px; height: 58px; top: 58%; left: 88%; }
+            .b7 { width: 38px; height: 38px; top: 44%; left: 2%; }
+
+            .b3,
+            .b8,
+            .b9 {
                 display: none;
+            }
+
+            .leaf {
+                width: 56px;
+                height: 56px;
             }
 
             .drinkwise {
@@ -1431,6 +1446,8 @@
                     });
                     body.classList.remove(...THEME_CLASSES);
                     if (config.bodyClass) body.classList.add(config.bodyClass);
+                    // Match the floating citrus to the flavor
+                    allBerries.forEach(b => { b.src = config.citrus; });
                 }, 120);
             }, { passive: true });
         }
