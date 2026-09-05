@@ -1087,13 +1087,13 @@
             <img src="assets/compa-logo.png" alt="Compa Drinks Co">
         </div>
         <nav class="nav glass">
-            <a href="#" class="nav-item active">Our Seltzers</a>
-            <a href="#" class="nav-item">Our Story</a>
-            <a href="#" class="nav-item">Tequila</a>
-            <a href="#" class="nav-item">Stockists</a>
-            <a href="#" class="nav-item">Contact</a>
+            <a href="index.html" class="nav-item active">Our Seltzers</a>
+            <a href="our-story.html" class="nav-item">Our Story</a>
+            <a href="tequila.html" class="nav-item">Tequila</a>
+            <a href="stockists.html" class="nav-item">Stockists</a>
+            <a href="contact.html" class="nav-item">Contact</a>
         </nav>
-        <button class="contact-btn">Find Compa</button>
+        <a class="contact-btn" href="stockists.html" style="text-decoration: none; display: inline-block;">Find Compa</a>
         <button class="menu-btn" id="menu-btn" aria-label="Open menu">
             <span></span><span></span><span></span>
         </button>
@@ -1101,11 +1101,11 @@
 
     <div class="mobile-menu" id="mobile-menu">
         <button class="menu-close" id="menu-close" aria-label="Close menu">✕</button>
-        <a href="#" class="active">Our Seltzers</a>
-        <a href="#">Our Story</a>
-        <a href="#">Tequila</a>
-        <a href="#">Stockists</a>
-        <a href="#">Contact</a>
+        <a href="index.html" class="active">Our Seltzers</a>
+        <a href="our-story.html">Our Story</a>
+        <a href="tequila.html">Tequila</a>
+        <a href="stockists.html">Stockists</a>
+        <a href="contact.html">Contact</a>
         <img src="assets/compa-logo.png" alt="" class="menu-logo">
     </div>
 
@@ -1280,9 +1280,17 @@
         let isSwitching = false;
         let switchSpin = 0;
 
-        // Age gate
+        // Age gate — remembered across pages so visitors aren't asked twice
+        const ageGate = document.getElementById('age-gate');
+        let ageOk = false;
+        try { ageOk = localStorage.getItem('compa_age_ok') === '1'; } catch (e) { }
+        if (ageOk) {
+            ageGate.style.transition = 'none';
+            ageGate.classList.add('hidden');
+        }
         document.getElementById('gate-yes').addEventListener('click', () => {
-            document.getElementById('age-gate').classList.add('hidden');
+            try { localStorage.setItem('compa_age_ok', '1'); } catch (e) { }
+            ageGate.classList.add('hidden');
         });
 
         // Mobile menu
