@@ -14,6 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
     <style>
         :root {
@@ -456,6 +457,36 @@
             transform-style: preserve-3d;
             filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.5));
             will-change: transform, filter;
+        }
+
+        /* 3D can (Higgsfield-generated GLB, rendered with model-viewer) */
+        #can-3d {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            /* sized relative to the fallback can so it tracks every breakpoint */
+            width: 240%;
+            height: 128%;
+            transform: translate(-50%, -50%) rotate(6deg);
+            --poster-color: transparent;
+            background: transparent;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            pointer-events: none;
+            will-change: filter;
+        }
+
+        .can-stage.model-ready #can-3d {
+            opacity: 1;
+        }
+
+        /* Hide the CSS-built fallback can once the 3D model is live */
+        .can-stage.model-ready .compa-can {
+            opacity: 0;
+        }
+
+        .compa-can {
+            transition: opacity 0.6s ease;
         }
 
         .can-lid,
@@ -1087,7 +1118,13 @@
             </div>
 
             <div class="hero-center">
-                <div class="can-stage">
+                <div class="can-stage" id="can-stage">
+                    <model-viewer id="can-3d" src="assets/can-paloma.glb" alt="Compa Paloma tequila seltzer can in 3D"
+                        loading="eager" reveal="auto" disable-zoom disable-pan disable-tap
+                        interaction-prompt="none" interpolation-decay="50" shadow-intensity="0"
+                        camera-orbit="0deg 88deg 105%" field-of-view="28deg">
+                        <div slot="progress-bar"></div>
+                    </model-viewer>
                     <div id="product-can" class="compa-can flavor-paloma">
                         <div class="can-lid"></div>
                         <div class="can-body">
@@ -1160,7 +1197,24 @@
 
     <script>
         const productCan = document.querySelector('#product-can');
+        const canStage = document.getElementById('can-stage');
+        const canViewer = document.getElementById('can-3d');
         const canFlavorName = document.getElementById('can-flavor-name');
+
+        // 3D can: reveal once the GLB is in, keep the CSS can as fallback otherwise
+        let modelOk = false;
+        canViewer.addEventListener('load', () => {
+            modelOk = true;
+            canStage.classList.add('model-ready');
+        });
+        canViewer.addEventListener('error', () => {
+            modelOk = false;
+            canStage.classList.remove('model-ready');
+        });
+        // Warm the cache for both flavors so the switch swap is instant
+        ['assets/can-paloma.glb', 'assets/can-margarita.glb'].forEach(u => {
+            fetch(u).catch(() => { });
+        });
         const berriesFG = document.querySelector('.berries-container');
         const berriesBG = document.querySelector('.berries-container-bg');
         const leavesBG = document.querySelector('.leaves-container');
@@ -1192,6 +1246,7 @@
                 bodyClass: null,
                 canClass: 'flavor-paloma',
                 label: 'Paloma',
+                model: 'assets/can-paloma.glb',
                 citrus: 'assets/grapefruit.svg'
             },
             margarita: {
@@ -1199,6 +1254,7 @@
                 bodyClass: 'theme-margarita',
                 canClass: 'flavor-margarita',
                 label: 'Margarita',
+                model: 'assets/can-margarita.glb',
                 citrus: 'assets/lime.svg'
             }
         };
@@ -1243,6 +1299,7 @@
                 onUpdate: () => {
                     switchSpin = spinObj.val;
                     productCan.style.filter = `blur(${spinObj.blur}px) drop-shadow(0 40px 60px rgba(0,0,0,0.5))`;
+                    canViewer.style.filter = spinObj.blur > 0.5 ? `blur(${spinObj.blur}px)` : 'none';
                 },
                 onComplete: () => {
                     // SWAP at peak
@@ -1251,6 +1308,7 @@
                     productCan.classList.remove(...CAN_CLASSES);
                     productCan.classList.add(config.canClass);
                     canFlavorName.textContent = config.label;
+                    canViewer.src = config.model;
 
                     gsap.to(spinObj, {
                         val: 720,
@@ -1260,10 +1318,12 @@
                         onUpdate: () => {
                             switchSpin = spinObj.val;
                             productCan.style.filter = `blur(${spinObj.blur}px) drop-shadow(0 40px 60px rgba(0,0,0,0.5))`;
+                            canViewer.style.filter = spinObj.blur > 0.5 ? `blur(${spinObj.blur}px)` : 'none';
                         },
                         onComplete: () => {
                             switchSpin = 0;
                             productCan.style.filter = 'drop-shadow(0 40px 60px rgba(0,0,0,0.5))';
+                            canViewer.style.filter = 'none';
                         }
                     });
                 }
@@ -1372,6 +1432,13 @@
             // Tilt the can toward the cursor + add switch spin
             productCan.style.transform =
                 `rotate(6deg) rotateY(${(currentMouse.x * 40) + switchSpin}deg) rotateX(${currentMouse.y * -20}deg)`;
+
+            // Same motion on the 3D can, via its camera orbit
+            if (modelOk) {
+                const theta = (currentMouse.x * 40) + switchSpin;
+                const phi = 88 + (currentMouse.y * 14);
+                canViewer.cameraOrbit = `${theta}deg ${phi}deg 105%`;
+            }
 
             // Parallax containers
             berriesFG.style.transform = `translate(${currentMouse.x * 60}px, ${currentMouse.y * 60}px)`;
