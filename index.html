@@ -163,6 +163,8 @@
             background: rgba(0, 0, 0, 0.5);
             color: var(--text-color);
             border: none;
+            text-decoration: none;
+            display: inline-block;
             padding: 0.9rem 2rem;
             border-radius: 100px;
             font-weight: 600;
@@ -677,6 +679,12 @@
             max-width: 300px;
         }
 
+        /* Mobile-only CTA under the can shelf */
+        .shelf-cta {
+            display: none;
+            text-decoration: none;
+        }
+
         .card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
@@ -927,24 +935,26 @@
                 height: 28px;
             }
 
+            /* Find Compa lives on the can shelf instead of the header */
             .contact-btn {
-                padding: 0.7rem 1.3rem;
-                font-size: 0.75rem;
+                display: none;
             }
 
             .hero {
                 padding: 0 5%;
-                padding-top: 4.5rem;
+                padding-top: 3.8rem;
+                padding-bottom: 1.7rem;
             }
 
             .hero-content {
                 flex-direction: column;
                 align-items: center;
+                justify-content: space-evenly;
                 padding-top: 0;
             }
 
             .hero-left {
-                padding: 0.5rem 0 0;
+                padding: 0;
                 gap: 0.7rem;
                 align-items: center;
                 text-align: center;
@@ -953,12 +963,13 @@
             }
 
             .main-title {
-                font-size: clamp(2.4rem, 11vw, 3.4rem);
+                font-size: 20vw;
+                line-height: 0.92;
             }
 
             .description {
-                font-size: 0.82rem;
-                line-height: 1.5;
+                font-size: 0.78rem;
+                line-height: 1.45;
                 max-width: 300px;
             }
 
@@ -975,25 +986,9 @@
                 display: none;
             }
 
-            /* Can sits in the gap between the CTA and the carousel */
+            /* No hero can on phones — the flavor scroller is the hero */
+            .hero-center,
             .can-stage {
-                top: 54%;
-            }
-
-            .compa-can {
-                width: 14vh;
-                height: 29vh;
-            }
-
-            .can-flavor {
-                font-size: 1rem;
-            }
-
-            .can-tag {
-                font-size: 0.45rem;
-            }
-
-            .can-abv {
                 display: none;
             }
 
@@ -1001,13 +996,23 @@
                 display: none;
             }
 
+            /* Scroller sits in the evenly-spaced middle of the screen */
             .hero-right {
                 width: 100%;
                 height: auto;
-                padding: 0 0 1.6rem;
-                margin-top: auto;
-                justify-content: flex-end;
+                padding: 0;
+                margin: 0;
+                justify-content: center;
                 align-items: center;
+            }
+
+            .card-can {
+                height: 30vh;
+            }
+
+            .shelf-cta {
+                display: inline-flex;
+                margin-top: 0.9rem;
             }
 
             .product-carousel {
@@ -1016,30 +1021,68 @@
                 gap: 0;
             }
 
+            /* One swipeable row, active card snaps to the center of the screen */
             .carousel-cards {
-                justify-content: center;
-                width: 100%;
-                max-width: 262px;
-                margin: 0 auto;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                width: 100vw;
+                max-width: none;
+                margin: 0;
+                gap: 0.8rem;
+                overflow-x: auto;
+                /* lets the first and last card reach the middle of the screen */
+                padding: 0 13vw 0.4rem;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
             }
 
+            .carousel-cards::-webkit-scrollbar {
+                display: none;
+            }
+
+            /* Full-screen 3D slides: each card carries a real rotating can */
             .card {
-                width: 120px;
-                padding-top: 3.6rem;
-                gap: 0.9rem;
+                flex: 0 0 auto;
+                scroll-snap-align: center;
+                width: 74vw;
+                padding: 0.8rem 1rem 1.1rem;
+                gap: 0.3rem;
             }
 
             .mini-can {
-                width: 56px;
-                height: 98px;
-                margin-top: -4rem;
+                display: none;
             }
 
-            /* Floaters read as clutter on a small screen */
-            .berries-container,
-            .berries-container-bg,
-            .leaves-container {
+            .card-can {
+                width: 100%;
+                height: 46vh;
+                --poster-color: transparent;
+                pointer-events: none;
+            }
+
+            .card-info {
+                font-size: 0.85rem;
+            }
+
+            /* Citrus floaters come back on mobile — smaller, pushed to the edges
+               so they never sit on the copy or the cans */
+            .b1 { width: 64px; height: 64px; top: 3%; left: -4%; }
+            .b2 { width: 44px; height: 44px; top: 30%; left: 86%; }
+            .b4 { width: 52px; height: 52px; top: 10%; left: 80%; }
+            .b5 { width: 48px; height: 48px; top: 68%; left: -3%; }
+            .b6 { width: 58px; height: 58px; top: 58%; left: 88%; }
+            .b7 { width: 38px; height: 38px; top: 44%; left: 2%; }
+
+            .b3,
+            .b8,
+            .b9 {
                 display: none;
+            }
+
+            .leaf {
+                width: 56px;
+                height: 56px;
             }
 
             .drinkwise {
@@ -1093,7 +1136,7 @@
             <a href="stockists.html" class="nav-item">Stockists</a>
             <a href="contact.html" class="nav-item">Contact</a>
         </nav>
-        <a class="contact-btn" href="stockists.html" style="text-decoration: none; display: inline-block;">Find Compa</a>
+        <a class="contact-btn" href="stockists.html">Find Compa</a>
         <button class="menu-btn" id="menu-btn" aria-label="Open menu">
             <span></span><span></span><span></span>
         </button>
@@ -1227,6 +1270,8 @@
                             </div>
                         </div>
                     </div>
+                    <a class="primary-btn shelf-cta" href="stockists.html">Find Compa <span
+                            class="plus-icon">+</span></a>
                 </div>
                 <h2 class="side-title">
                     <span class="outline">Straight From</span><br>
@@ -1258,6 +1303,9 @@
         const canViewer = document.getElementById('can-3d');
         const canFlavorName = document.getElementById('can-flavor-name');
 
+        // Phones hide the hero can entirely — skip the heavy GLB downloads there
+        const noHeroCan = window.matchMedia('(max-width: 768px)').matches;
+
         // 3D can: reveal once the GLB is in, keep the CSS can as fallback otherwise
         let modelOk = false;
         canViewer.addEventListener('load', () => {
@@ -1268,10 +1316,15 @@
             modelOk = false;
             canStage.classList.remove('model-ready');
         });
-        // Warm the cache for every flavor so the switch swap is instant
-        ['assets/can-pine-lime.glb', 'assets/can-grapefruit.glb', 'assets/can-passionfruit.glb', 'assets/can-ranch-lime.glb'].forEach(u => {
-            fetch(u).catch(() => { });
-        });
+        if (noHeroCan) {
+            // The hidden hero viewer stays empty; each slide carries its own can
+            canViewer.removeAttribute('src');
+        } else {
+            // Warm the cache for every flavor so the switch swap is instant
+            ['assets/can-pine-lime.glb', 'assets/can-grapefruit.glb', 'assets/can-passionfruit.glb', 'assets/can-ranch-lime.glb'].forEach(u => {
+                fetch(u).catch(() => { });
+            });
+        }
         const berriesFG = document.querySelector('.berries-container');
         const berriesBG = document.querySelector('.berries-container-bg');
         const leavesBG = document.querySelector('.leaves-container');
@@ -1349,6 +1402,11 @@
 
         cards.forEach(card => {
             card.addEventListener('click', () => {
+                if (noHeroCan) {
+                    // Mobile: just center the slide — the scroll handler applies the theme
+                    card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                    return;
+                }
                 if (isSwitching) return;
                 cards.forEach(c => c.classList.remove('active'));
                 card.classList.add('active');
@@ -1356,6 +1414,67 @@
                 switchFlavor(flavor);
             });
         });
+
+        // ===== Mobile: full-screen 3D slides =====
+        if (noHeroCan) {
+            // Put a real rotating 3D can inside each flavor card
+            cards.forEach(card => {
+                const config = FLAVORS[card.dataset.flavor];
+                const mv = document.createElement('model-viewer');
+                mv.className = 'card-can';
+                mv.src = config.model;
+                mv.alt = 'Compa ' + config.label + ' can in 3D';
+                mv.setAttribute('auto-rotate', '');
+                mv.setAttribute('auto-rotate-delay', '0');
+                mv.setAttribute('rotation-per-second', '25deg');
+                mv.setAttribute('camera-orbit', '0deg 86deg 105%');
+                mv.setAttribute('field-of-view', '28deg');
+                mv.setAttribute('interaction-prompt', 'none');
+                mv.setAttribute('shadow-intensity', '0');
+                mv.setAttribute('disable-zoom', '');
+                mv.setAttribute('disable-pan', '');
+                mv.setAttribute('disable-tap', '');
+                const bar = document.createElement('div');
+                bar.slot = 'progress-bar';
+                mv.appendChild(bar);
+                card.insertBefore(mv, card.firstChild);
+            });
+
+            // Whichever slide settles in the center picks the flavor theme
+            const scroller = document.querySelector('.carousel-cards');
+            const body = document.body;
+            let settleTimer;
+            scroller.addEventListener('scroll', () => {
+                clearTimeout(settleTimer);
+                settleTimer = setTimeout(() => {
+                    let best = null, bestDist = Infinity;
+                    cards.forEach(c => {
+                        const r = c.getBoundingClientRect();
+                        const d = Math.abs(r.left + r.width / 2 - window.innerWidth / 2);
+                        if (d < bestDist) { bestDist = d; best = c; }
+                    });
+                    if (!best || best.classList.contains('active')) return;
+                    cards.forEach(c => c.classList.remove('active'));
+                    best.classList.add('active');
+                    const config = FLAVORS[best.dataset.flavor];
+                    gsap.to(body, {
+                        '--bg-inner': config.colors.inner,
+                        '--bg-mid': config.colors.mid,
+                        '--bg-outer': config.colors.outer,
+                        duration: 1.2,
+                        ease: 'power2.inOut'
+                    });
+                    body.classList.remove(...THEME_CLASSES);
+                    if (config.bodyClass) body.classList.add(config.bodyClass);
+                    // Match the floating citrus to the flavor
+                    allBerries.forEach(b => { b.src = config.citrus; });
+                }, 120);
+            }, { passive: true });
+        }
+
+        // Start with the active card centered in the scroller
+        const activeCard = document.querySelector('.card.active');
+        if (activeCard) activeCard.scrollIntoView({ inline: 'center', block: 'nearest' });
 
         async function switchFlavor(flavor) {
             if (isSwitching) return;
@@ -1394,7 +1513,7 @@
                     productCan.classList.add(config.canClass);
                     canFlavorName.textContent = config.label;
                     document.getElementById('can-abv').textContent = config.abv;
-                    canViewer.src = config.model;
+                    if (!noHeroCan) canViewer.src = config.model;
 
                     gsap.to(spinObj, {
                         val: 720,
