@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Compa Drinks Co | Tequila Seltzers</title>
+    <meta name="description" content="Tequila seltzers inspired by Mexico's favourite cocktails — the Paloma and the Margarita. Low sugar, low calorie, gluten free.">
+    <link rel="icon" href="assets/grapefruit.svg" type="image/svg+xml">
+    <meta property="og:title" content="Compa Drinks Co | Tequila Seltzers">
+    <meta property="og:description" content="Tequila seltzers inspired by Mexico's favourite cocktails — the Paloma and the Margarita. Low sugar, low calorie, gluten free.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/compa-logo.png">    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --text-color: #fff9ec;
+            --accent-color: #f2d500;
+            /* Compa yellow */
+            --accent-text: #2a0808;
+            --muted-color: rgba(255, 249, 236, 0.72);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --font-main: 'Inter', sans-serif;
+            --font-heading: 'Anton', sans-serif;
+
+            /* Dynamic Background — Paloma (default) */
+            --bg-inner: #b5484f;
+            --bg-mid: #5f2129;
+            --bg-outer: #150507;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at center, var(--bg-inner) 0%, var(--bg-mid) 50%, var(--bg-outer) 100%);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            overflow: hidden;
+            height: 100vh;
+            height: 100dvh;
+            transition: background 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.theme-margarita {
+            --bg-inner: #6f9d23;
+            --bg-mid: #3a5510;
+            --bg-outer: #0d1402;
+        }
+
+        /* ============ Bubbles ============ */
+        #bubbles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bubble-img {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        @keyframes floatUpImg {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.4;
+            }
+
+            90% {
+                opacity: 0.4;
+            }
+
+            100% {
+                transform: translateY(-110vh) translateX(30px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ============ Header ============ */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 4%;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 200;
+        }
+
+        .logo img {
+            height: 38px;
+            width: auto;
+            display: block;
+        }
+
+        .nav {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--glass-bg);
+            padding: 0.4rem;
+            border-radius: 100px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .nav.glass {
+            position: relative;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .nav-item {
+            font-family: 'Manrope', sans-serif;
+            color: var(--muted-color);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem;
+            border-radius: 100px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: var(--accent-color);
+            color: var(--accent-text);
+        }
+
+        .contact-btn {
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--text-color);
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            font-family: 'Manrope', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background: rgba(0, 0, 0, 0.7);
+            transform: translateY(-2px);
+        }
+
+        /* Hamburger — only shown when the pill nav is hidden */
+        .menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            cursor: pointer;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .menu-btn span {
+            display: block;
+            width: 18px;
+            height: 2px;
+            border-radius: 2px;
+            background: var(--text-color);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            background: rgba(21, 5, 7, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.4rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+        }
+
+        .mobile-menu.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-menu a {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            color: var(--text-color);
+            text-decoration: none;
+            line-height: 1;
+            transition: color 0.2s ease;
+        }
+
+        .mobile-menu a.active,
+        .mobile-menu a:hover {
+            color: var(--accent-color);
+        }
+
+        .menu-close {
+            position: absolute;
+            top: 1.4rem;
+            right: 5%;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-color);
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .menu-logo {
+            width: 140px;
+            margin-top: 1.5rem;
+            opacity: 0.7;
+        }
+
+        /* ============ Hero ============ */
+        .hero {
+            height: 100vh;
+            height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4%;
+            padding-top: 5rem;
+        }
+
+        .hero-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .main-title,
+        .side-title {
+            font-family: var(--font-heading);
+            font-size: clamp(3.5rem, 8vw, 9rem);
+            line-height: 0.9;
+            font-weight: 400;
+            text-transform: uppercase;
+            white-space: nowrap;
+            color: var(--text-color);
+            letter-spacing: 0.01em;
+        }
+
+        .outline {
+            color: var(--accent-color);
+        }
+
+        /* Far background citrus */
+        .leaves-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            transition: transform 0.1s ease-out;
+        }
+
+        .leaf {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            pointer-events: none;
+            z-index: -1;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
+            opacity: 0.22;
+        }
+
+        .l1 { top: 10%; left: 15%; }
+        .l2 { top: 40%; left: 80%; width: 140px; height: 140px; opacity: 0.14; }
+        .l3 { top: 70%; left: 75%; width: 80px; height: 80px; }
+        .l4 { top: 85%; left: 20%; width: 120px; height: 120px; opacity: 0.12; }
+
+        /* Left column */
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 6rem 0;
+            gap: 2rem;
+            z-index: 100;
+        }
+
+        .description {
+            color: var(--muted-color);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            max-width: 420px;
+        }
+
+        .primary-btn {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--text-color);
+            border: none;
+            padding: 0.4rem 0.4rem 0.4rem 1.5rem;
+            border-radius: 100px;
+            font-weight: 700;
+            font-family: 'Manrope', sans-serif;
+            cursor: pointer;
+            width: fit-content;
+            transition: all 0.3s ease;
+        }
+
+        .primary-btn:hover {
+            background: rgba(0, 0, 0, 0.7);
+            transform: translateY(-3px);
+        }
+
+        .plus-icon {
+            background: var(--accent-color);
+            color: var(--accent-text);
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            font-weight: 900;
+            line-height: 1;
+            padding-bottom: 2px;
+            border: none;
+        }
+
+        .award-badge {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: auto;
+        }
+
+        .award-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .award-icon img {
+            width: 28px;
+            height: 28px;
+        }
+
+        .award-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .award-title {
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            color: var(--muted-color);
+        }
+
+        .award-subtitle {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Center product — CSS-built can */
+        .hero-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 0.3s forwards, float 6s ease-in-out infinite;
+            pointer-events: none;
+            background: radial-gradient(circle at center, rgba(242, 213, 0, 0.06) 0%, transparent 70%);
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .can-stage {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            perspective: 1400px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .compa-can {
+            position: relative;
+            width: 30vh;
+            height: 64vh;
+            transform-style: preserve-3d;
+            filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.5));
+            will-change: transform, filter;
+        }
+
+        .can-lid,
+        .can-base {
+            position: absolute;
+            left: 3%;
+            right: 3%;
+            height: 2.6%;
+            background: linear-gradient(#f0f0f0, #8d8d8d);
+            border-radius: 50% / 100%;
+            z-index: 2;
+        }
+
+        .can-lid {
+            top: 0;
+        }
+
+        .can-base {
+            bottom: 0;
+            background: linear-gradient(#a8a8a8, #5c5c5c);
+        }
+
+        .can-body {
+            position: absolute;
+            top: 1.4%;
+            bottom: 1.4%;
+            left: 0;
+            right: 0;
+            border-radius: 18px / 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.2rem;
+            overflow: hidden;
+            box-shadow:
+                inset -22px 0 38px rgba(0, 0, 0, 0.38),
+                inset 22px 0 34px rgba(0, 0, 0, 0.28),
+                inset 0 6px 12px rgba(255, 255, 255, 0.12);
+            transition: background 0.4s ease;
+        }
+
+        .compa-can.flavor-paloma .can-body {
+            background: linear-gradient(165deg, #d96058 0%, #a03340 55%, #611a26 100%);
+        }
+
+        .compa-can.flavor-margarita .can-body {
+            background: linear-gradient(165deg, #8fbc37 0%, #55771a 55%, #2e460c 100%);
+        }
+
+        /* sheen */
+        .can-body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 16%;
+            width: 11%;
+            background: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.06) 60%, rgba(255, 255, 255, 0.2));
+            border-radius: 100px;
+            filter: blur(2px);
+            opacity: 0.55;
+        }
+
+        .can-logo {
+            width: 78%;
+            height: auto;
+        }
+
+        .can-flavor {
+            font-family: var(--font-heading);
+            font-size: clamp(1.6rem, 3.4vh, 2.6rem);
+            letter-spacing: 0.28em;
+            padding-left: 0.28em;
+            color: var(--text-color);
+            text-transform: uppercase;
+        }
+
+        .can-tag {
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.62rem;
+            letter-spacing: 0.35em;
+            padding-left: 0.35em;
+            color: rgba(255, 249, 236, 0.75);
+            text-transform: uppercase;
+        }
+
+        .can-abv {
+            position: absolute;
+            bottom: 7%;
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            color: rgba(255, 249, 236, 0.55);
+            text-transform: uppercase;
+        }
+
+        /* Floating citrus */
+        .berries-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 110;
+            transition: transform 0.1s ease-out;
+        }
+
+        .berries-container-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            transition: transform 0.1s ease-out;
+        }
+
+        .berry {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            outline: none;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+            will-change: transform;
+        }
+
+        .b1 { top: 25%; left: 30%; width: 150px; height: 150px; }
+        .b2 { top: 60%; left: 42%; width: 80px; height: 80px; }
+        .b3 { top: 30%; left: 62%; width: 170px; height: 170px; }
+        .b4 { top: 15%; left: 48%; width: 100px; height: 100px; }
+        .b5 { top: 75%; left: 20%; width: 95px; height: 95px; }
+        .b6 { top: 45%; left: 75%; width: 130px; height: 130px; }
+        .b7 { top: 15%; left: 40%; width: 70px; height: 70px; opacity: 0.5; }
+        .b8 { top: 50%; left: 55%; width: 60px; height: 60px; opacity: 0.4; }
+        .b9 { top: 80%; left: 35%; width: 65px; height: 65px; opacity: 0.5; }
+
+        /* Right column */
+        .hero-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-end;
+            text-align: right;
+            height: 100%;
+            padding: 6rem 0;
+            z-index: 100;
+            width: 450px;
+            pointer-events: none;
+        }
+
+        .product-carousel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: flex-end;
+            pointer-events: auto;
+        }
+
+        .carousel-cards {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 1rem;
+            padding-top: 4.4rem;
+            border-radius: 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.2rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 140px;
+            position: relative;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .card.active {
+            border-color: var(--accent-color);
+        }
+
+        .mini-can {
+            position: relative;
+            width: 66px;
+            height: 116px;
+            margin-top: -4.6rem;
+            border-radius: 8px / 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+            box-shadow:
+                inset -8px 0 12px rgba(0, 0, 0, 0.35),
+                inset 8px 0 10px rgba(0, 0, 0, 0.25);
+            filter: drop-shadow(0 16px 26px rgba(0, 0, 0, 0.5));
+            border-top: 3px solid #c9c9c9;
+            border-bottom: 3px solid #7d7d7d;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+            will-change: transform;
+            pointer-events: none;
+        }
+
+        .card:hover .mini-can {
+            transform: translateY(-24px) rotate(-10deg) scale(1.12) !important;
+        }
+
+        .mini-can.flavor-paloma {
+            background: linear-gradient(165deg, #d96058 0%, #a03340 55%, #611a26 100%);
+        }
+
+        .mini-can.flavor-margarita {
+            background: linear-gradient(165deg, #8fbc37 0%, #55771a 55%, #2e460c 100%);
+        }
+
+        .mini-can img {
+            width: 78%;
+        }
+
+        .mini-can span {
+            font-family: var(--font-heading);
+            font-size: 0.55rem;
+            letter-spacing: 0.22em;
+            padding-left: 0.22em;
+            color: var(--text-color);
+        }
+
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.7rem;
+            width: 100%;
+            word-wrap: break-word;
+        }
+
+        .card-info span:first-child {
+            font-weight: 600;
+        }
+
+        .card-info span:last-child {
+            color: var(--muted-color);
+        }
+
+        .side-title {
+            align-self: flex-end;
+            text-align: right;
+        }
+
+        .drinkwise {
+            position: fixed;
+            bottom: 0.6rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.35);
+            z-index: 150;
+            white-space: nowrap;
+        }
+
+        /* Age gate */
+        .age-gate {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: radial-gradient(circle at center, #b5484f 0%, #5f2129 55%, #150507 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            text-align: center;
+            padding: 0 1.5rem;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        .age-gate.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .age-gate img {
+            width: 190px;
+            height: auto;
+        }
+
+        .age-gate .gate-greeting {
+            font-family: 'Manrope', sans-serif;
+            letter-spacing: 0.15em;
+            font-size: 0.8rem;
+            color: var(--muted-color);
+            text-transform: uppercase;
+        }
+
+        .age-gate h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            text-transform: uppercase;
+            line-height: 1;
+        }
+
+        .gate-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .gate-buttons button,
+        .gate-buttons a {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 0.9rem 2.5rem;
+            border-radius: 100px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s ease;
+            border: none;
+        }
+
+        .gate-yes {
+            background: var(--accent-color);
+            color: var(--accent-text);
+        }
+
+        .gate-no {
+            background: rgba(0, 0, 0, 0.4);
+            color: var(--text-color);
+            border: 1px solid var(--glass-border) !important;
+        }
+
+        .gate-buttons button:hover,
+        .gate-buttons a:hover {
+            transform: translateY(-2px);
+        }
+
+        @keyframes shine {
+            from {
+                transform: translateX(-100%) rotate(45deg);
+            }
+
+            to {
+                transform: translateX(200%) rotate(45deg);
+            }
+        }
+
+        /* ============ Tablet ============ */
+        @media (max-width: 1200px) {
+            .compa-can {
+                width: 26vh;
+                height: 55vh;
+            }
+
+            .can-stage {
+                top: 42%;
+            }
+
+            .hero-content {
+                padding-top: 8rem;
+            }
+
+            .main-title,
+            .side-title {
+                font-size: 4rem;
+            }
+
+            .hero-right {
+                align-items: center;
+                text-align: center;
+            }
+
+            .side-title {
+                align-self: center;
+                text-align: center;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .menu-btn {
+                display: flex;
+            }
+        }
+
+        /* ============ Mobile ============ */
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem 5%;
+            }
+
+            .logo img {
+                height: 28px;
+            }
+
+            .contact-btn {
+                padding: 0.7rem 1.3rem;
+                font-size: 0.75rem;
+            }
+
+            .hero {
+                padding: 0 5%;
+                padding-top: 4.5rem;
+            }
+
+            .hero-content {
+                flex-direction: column;
+                align-items: center;
+                padding-top: 0;
+            }
+
+            .hero-left {
+                padding: 0.5rem 0 0;
+                gap: 0.7rem;
+                align-items: center;
+                text-align: center;
+                height: auto;
+                z-index: 100;
+            }
+
+            .main-title {
+                font-size: clamp(2.4rem, 11vw, 3.4rem);
+            }
+
+            .description {
+                font-size: 0.82rem;
+                line-height: 1.5;
+                max-width: 300px;
+            }
+
+            .description br {
+                display: none;
+            }
+
+            .cta-group {
+                display: flex;
+                justify-content: center;
+            }
+
+            .award-badge {
+                display: none;
+            }
+
+            /* Can sits in the gap between the CTA and the carousel */
+            .can-stage {
+                top: 54%;
+            }
+
+            .compa-can {
+                width: 14vh;
+                height: 29vh;
+            }
+
+            .can-flavor {
+                font-size: 1rem;
+            }
+
+            .can-tag {
+                font-size: 0.45rem;
+            }
+
+            .can-abv {
+                display: none;
+            }
+
+            .side-title {
+                display: none;
+            }
+
+            .hero-right {
+                width: 100%;
+                height: auto;
+                padding: 0 0 1.6rem;
+                margin-top: auto;
+                justify-content: flex-end;
+                align-items: center;
+            }
+
+            .product-carousel {
+                align-items: center;
+                width: 100%;
+                gap: 0;
+            }
+
+            .carousel-cards {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .card {
+                width: 120px;
+                padding-top: 3.6rem;
+                gap: 0.9rem;
+            }
+
+            .mini-can {
+                width: 56px;
+                height: 98px;
+                margin-top: -4rem;
+            }
+
+            /* Floaters read as clutter on a small screen */
+            .berries-container,
+            .berries-container-bg,
+            .leaves-container {
+                display: none;
+            }
+
+            .drinkwise {
+                font-size: 0.55rem;
+                bottom: 0.35rem;
+            }
+
+            .age-gate img {
+                width: 140px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .hero-center,
+            .mini-can {
+                animation: none !important;
+                transition: none !important;
+                opacity: 1;
+            }
+
+            .bubble-img {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Age gate -->
+    <div class="age-gate" id="age-gate">
+        <img src="assets/compa-logo.png" alt="Compa Drinks Co">
+        <span class="gate-greeting">Hola, amigo — welcome to Compa Drinks Co</span>
+        <h2>Are you<br>over 18?</h2>
+        <div class="gate-buttons">
+            <button class="gate-yes" id="gate-yes">Sí, I am</button>
+            <a class="gate-no" href="https://drinkwise.org.au" target="_blank" rel="noopener">No, I'm not</a>
+        </div>
+    </div>
+
+    <div id="bubbles-container"></div>
+
+    <header class="header">
+        <div class="logo">
+            <img src="assets/compa-logo.png" alt="Compa Drinks Co">
+        </div>
+        <nav class="nav glass">
+            <a href="#" class="nav-item active">Our Seltzers</a>
+            <a href="#" class="nav-item">Our Story</a>
+            <a href="#" class="nav-item">Tequila</a>
+            <a href="#" class="nav-item">Stockists</a>
+            <a href="#" class="nav-item">Contact</a>
+        </nav>
+        <button class="contact-btn">Find Compa</button>
+        <button class="menu-btn" id="menu-btn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+    </header>
+
+    <div class="mobile-menu" id="mobile-menu">
+        <button class="menu-close" id="menu-close" aria-label="Close menu">✕</button>
+        <a href="#" class="active">Our Seltzers</a>
+        <a href="#">Our Story</a>
+        <a href="#">Tequila</a>
+        <a href="#">Stockists</a>
+        <a href="#">Contact</a>
+        <img src="assets/compa-logo.png" alt="" class="menu-logo">
+    </div>
+
+    <main class="hero">
+        <div class="hero-content">
+
+            <div class="leaves-container">
+                <img class="leaf l1" src="assets/lime.svg" alt="">
+                <img class="leaf l2" src="assets/grapefruit.svg" alt="">
+                <img class="leaf l3" src="assets/lime.svg" alt="">
+                <img class="leaf l4" src="assets/grapefruit.svg" alt="">
+            </div>
+
+            <div class="hero-left">
+                <h1 class="main-title">
+                    <span class="outline">Salud,</span><br>
+                    Amigos
+                </h1>
+                <p class="description">
+                    Tequila seltzers inspired by Mexico's <br>
+                    favourite cocktails — the Paloma and <br>
+                    the Margarita. Low sugar, low calorie, <br>
+                    gluten free. Real Blanco tequila.
+                </p>
+                <div class="cta-group">
+                    <button class="primary-btn">
+                        Shop Now
+                        <span class="plus-icon">+</span>
+                    </button>
+                </div>
+                <div class="award-badge">
+                    <div class="award-icon">
+                        <img src="assets/lime.svg" alt="">
+                    </div>
+                    <div class="award-text">
+                        <span class="award-title">100% BLUE AGAVE</span>
+                        <span class="award-subtitle">BLANCO TEQUILA · JALISCO, MX</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="berries-container-bg">
+                <img class="berry b7" src="assets/grapefruit.svg" alt="">
+                <img class="berry b8" src="assets/grapefruit.svg" alt="">
+                <img class="berry b9" src="assets/grapefruit.svg" alt="">
+            </div>
+
+            <div class="hero-center">
+                <div class="can-stage">
+                    <div id="product-can" class="compa-can flavor-paloma">
+                        <div class="can-lid"></div>
+                        <div class="can-body">
+                            <img class="can-logo" src="assets/compa-logo.png" alt="Compa">
+                            <div class="can-flavor" id="can-flavor-name">Paloma</div>
+                            <div class="can-tag">Tequila Seltzer</div>
+                            <div class="can-abv">330mL · 4.5% ALC/VOL</div>
+                        </div>
+                        <div class="can-base"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="berries-container">
+                <img class="berry b1" src="assets/grapefruit.svg" alt="">
+                <img class="berry b2" src="assets/grapefruit.svg" alt="">
+                <img class="berry b3" src="assets/grapefruit.svg" alt="">
+                <img class="berry b4" src="assets/grapefruit.svg" alt="">
+                <img class="berry b5" src="assets/grapefruit.svg" alt="">
+                <img class="berry b6" src="assets/grapefruit.svg" alt="">
+            </div>
+
+            <div class="hero-right">
+                <div class="product-carousel">
+                    <div class="carousel-cards">
+                        <div class="card active" data-flavor="paloma">
+                            <div class="mini-can flavor-paloma">
+                                <img src="assets/compa-logo.png" alt="">
+                                <span>PALOMA</span>
+                            </div>
+                            <div class="card-info">
+                                <span>Paloma</span>
+                                <span>Grapefruit Seltzer</span>
+                            </div>
+                        </div>
+                        <div class="card" data-flavor="margarita">
+                            <div class="mini-can flavor-margarita">
+                                <img src="assets/compa-logo.png" alt="">
+                                <span>MARGARITA</span>
+                            </div>
+                            <div class="card-info">
+                                <span>Margarita</span>
+                                <span>Lime Seltzer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="side-title">
+                    <span class="outline">Straight From</span><br>
+                    Jalisco
+                </h2>
+            </div>
+
+        </div>
+    </main>
+
+    <div class="drinkwise">Please drink responsibly. Get the facts: DrinkWise.org.au</div>
+
+    <svg style="position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none;">
+        <filter id="frosted">
+            <feTurbulence type="fractalNoise" baseFrequency="0.0125" numOctaves="3" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="80" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+    </svg>
+
+    <div style="display: none;">
+        <img src="assets/lime.svg" alt="">
+        <img src="assets/grapefruit.svg" alt="">
+    </div>
+
+    <script>
+        const productCan = document.querySelector('#product-can');
+        const canFlavorName = document.getElementById('can-flavor-name');
+        const berriesFG = document.querySelector('.berries-container');
+        const berriesBG = document.querySelector('.berries-container-bg');
+        const leavesBG = document.querySelector('.leaves-container');
+        const allBerries = document.querySelectorAll('.berry');
+        const cards = document.querySelectorAll('.card');
+        let isSwitching = false;
+        let switchSpin = 0;
+
+        // Age gate
+        document.getElementById('gate-yes').addEventListener('click', () => {
+            document.getElementById('age-gate').classList.add('hidden');
+        });
+
+        // Mobile menu
+        const mobileMenu = document.getElementById('mobile-menu');
+        document.getElementById('menu-btn').addEventListener('click', () => {
+            mobileMenu.classList.add('open');
+        });
+        document.getElementById('menu-close').addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+        });
+        mobileMenu.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => mobileMenu.classList.remove('open'));
+        });
+
+        const FLAVORS = {
+            paloma: {
+                colors: { inner: '#b5484f', mid: '#5f2129', outer: '#150507' },
+                bodyClass: null,
+                canClass: 'flavor-paloma',
+                label: 'Paloma',
+                citrus: 'assets/grapefruit.svg'
+            },
+            margarita: {
+                colors: { inner: '#6f9d23', mid: '#3a5510', outer: '#0d1402' },
+                bodyClass: 'theme-margarita',
+                canClass: 'flavor-margarita',
+                label: 'Margarita',
+                citrus: 'assets/lime.svg'
+            }
+        };
+
+        const THEME_CLASSES = ['theme-margarita'];
+        const CAN_CLASSES = ['flavor-paloma', 'flavor-margarita'];
+
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                if (isSwitching) return;
+                cards.forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                const flavor = card.dataset.flavor;
+                switchFlavor(flavor);
+            });
+        });
+
+        async function switchFlavor(flavor) {
+            if (isSwitching) return;
+            isSwitching = true;
+            const body = document.body;
+            const berries = document.querySelectorAll('.berry');
+            const heroCenter = document.querySelector('.hero-center');
+            const config = FLAVORS[flavor];
+
+            // 1. Background Animation
+            gsap.to(body, {
+                '--bg-inner': config.colors.inner,
+                '--bg-mid': config.colors.mid,
+                '--bg-outer': config.colors.outer,
+                duration: 1.5,
+                ease: 'power2.inOut'
+            });
+
+            // 2. Can Spin Animation (rotateY flip + blur with back settle)
+            const spinObj = { val: 0, blur: 0 };
+            gsap.to(spinObj, {
+                val: 360,
+                blur: 15,
+                duration: 0.6,
+                ease: "power2.in",
+                onUpdate: () => {
+                    switchSpin = spinObj.val;
+                    productCan.style.filter = `blur(${spinObj.blur}px) drop-shadow(0 40px 60px rgba(0,0,0,0.5))`;
+                },
+                onComplete: () => {
+                    // SWAP at peak
+                    body.classList.remove(...THEME_CLASSES);
+                    if (config.bodyClass) body.classList.add(config.bodyClass);
+                    productCan.classList.remove(...CAN_CLASSES);
+                    productCan.classList.add(config.canClass);
+                    canFlavorName.textContent = config.label;
+
+                    gsap.to(spinObj, {
+                        val: 720,
+                        blur: 0,
+                        duration: 1.5,
+                        ease: "back.out(0.7)",
+                        onUpdate: () => {
+                            switchSpin = spinObj.val;
+                            productCan.style.filter = `blur(${spinObj.blur}px) drop-shadow(0 40px 60px rgba(0,0,0,0.5))`;
+                        },
+                        onComplete: () => {
+                            switchSpin = 0;
+                            productCan.style.filter = 'drop-shadow(0 40px 60px rgba(0,0,0,0.5))';
+                        }
+                    });
+                }
+            });
+
+            // 3. Citrus "Hide & Reveal" with model swap (grapefruit <-> lime)
+            let completedBerries = 0;
+            berries.forEach((berry, i) => {
+                const bW = berry.offsetWidth / 2;
+                const bH = berry.offsetHeight / 2;
+                const centerX = (window.innerWidth / 2 - berry.offsetLeft - bW);
+                const centerY = (window.innerHeight / 2 - berry.offsetTop - bH);
+
+                const startAngle = parseFloat(berry.dataset.angle) || 0;
+                const currentBaseX = parseFloat(berry.dataset.baseX) || 0;
+                const currentBaseY = parseFloat(berry.dataset.baseY) || 0;
+
+                const nextBaseX = (Math.random() - 0.5) * 200;
+                const nextBaseY = (Math.random() - 0.5) * 200;
+
+                gsap.set(berry, {
+                    rotation: startAngle,
+                    x: currentBaseX,
+                    y: currentBaseY
+                });
+
+                const berryTl = gsap.timeline();
+
+                berryTl.to(berry, {
+                    x: centerX,
+                    y: centerY,
+                    rotation: startAngle + 45,
+                    scale: 0.1,
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "power2.in",
+                    onComplete: () => {
+                        berry.src = config.citrus;
+                        heroCenter.style.zIndex = 50;
+                    }
+                })
+                    .to(berry, {
+                        duration: 0.3
+                    })
+                    .to(berry, {
+                        onStart: () => {
+                            heroCenter.style.zIndex = 1;
+                        },
+                        x: nextBaseX,
+                        y: nextBaseY,
+                        rotation: startAngle + 90,
+                        scale: 1,
+                        opacity: berry.classList.contains('b7') || berry.classList.contains('b8') || berry.classList.contains('b9') ? 0.5 : 1,
+                        duration: 0.9,
+                        ease: "back.out(1.5)",
+                        onComplete: () => {
+                            berry.dataset.angle = startAngle + 90;
+                            berry.dataset.baseX = nextBaseX;
+                            berry.dataset.baseY = nextBaseY;
+                            berry.dataset.rx = 0;
+                            berry.dataset.ry = 0;
+
+                            completedBerries++;
+                            if (completedBerries === berries.length) {
+                                isSwitching = false;
+                            }
+                        }
+                    });
+            });
+        }
+
+        // Track citrus states for smoothing
+        allBerries.forEach(b => {
+            b.dataset.rx = 0; b.dataset.ry = 0; b.dataset.angle = Math.random() * 360;
+            b.dataset.baseX = 0; b.dataset.baseY = 0;
+            b.dataset.targetRx = 0; b.dataset.targetRy = 0;
+        });
+
+        let mouse = { x: 0, y: 0, px: 0, py: 0 };
+        let currentMouse = { x: 0, y: 0 };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = (e.clientX / window.innerWidth) - 0.5;
+            mouse.y = (e.clientY / window.innerHeight) - 0.5;
+            mouse.px = e.clientX;
+            mouse.py = e.clientY;
+        });
+
+        // Touch input drives the same values on mobile
+        function handleTouch(e) {
+            const t = e.touches[0];
+            if (!t) return;
+            mouse.x = (t.clientX / window.innerWidth) - 0.5;
+            mouse.y = (t.clientY / window.innerHeight) - 0.5;
+            mouse.px = t.clientX;
+            mouse.py = t.clientY;
+        }
+        window.addEventListener('touchstart', handleTouch, { passive: true });
+        window.addEventListener('touchmove', handleTouch, { passive: true });
+
+        function animate() {
+            const time = Date.now() * 0.001;
+            currentMouse.x += (mouse.x - currentMouse.x) * 0.05;
+            currentMouse.y += (mouse.y - currentMouse.y) * 0.05;
+
+            // Tilt the can toward the cursor + add switch spin
+            productCan.style.transform =
+                `rotate(6deg) rotateY(${(currentMouse.x * 40) + switchSpin}deg) rotateX(${currentMouse.y * -20}deg)`;
+
+            // Parallax containers
+            berriesFG.style.transform = `translate(${currentMouse.x * 60}px, ${currentMouse.y * 60}px)`;
+            berriesBG.style.transform = `translate(${currentMouse.x * -30}px, ${currentMouse.y * -30}px)`;
+            leavesBG.style.transform = `translate(${currentMouse.x * -15}px, ${currentMouse.y * -15}px)`;
+
+            // Each citrus slice: repulsion + float — only if not switching
+            if (!isSwitching) {
+                allBerries.forEach((berry, i) => {
+                    if (!berry.offsetWidth) return; // hidden on mobile
+                    const berryRect = berry.getBoundingClientRect();
+                    const berryX = berryRect.left + berryRect.width / 2;
+                    const berryY = berryRect.top + berryRect.height / 2;
+
+                    const diffX = mouse.px - berryX;
+                    const diffY = mouse.py - berryY;
+                    const distance = Math.sqrt(diffX * diffX + diffY * diffY);
+
+                    let targetRx = 0, targetRy = 0, speedMult = 1;
+
+                    if (distance < 400) {
+                        const force = (400 - distance) / 400;
+                        targetRx = (diffX / distance) * force * -80;
+                        targetRy = (diffY / distance) * force * -80;
+                        speedMult = 1 + force * 5;
+                    }
+
+                    let rx = parseFloat(berry.dataset.rx) || 0;
+                    let ry = parseFloat(berry.dataset.ry) || 0;
+                    let angle = parseFloat(berry.dataset.angle) || 0;
+                    let baseX = parseFloat(berry.dataset.baseX) || 0;
+                    let baseY = parseFloat(berry.dataset.baseY) || 0;
+
+                    rx += (targetRx - rx) * 0.1;
+                    ry += (targetRy - ry) * 0.1;
+                    angle += 0.2 * speedMult;
+
+                    berry.dataset.rx = rx;
+                    berry.dataset.ry = ry;
+                    berry.dataset.angle = angle;
+
+                    const dur = [5, 7, 6, 8, 5.5, 6.5, 9, 11, 10][i % 9];
+                    const phase = (time + i * 0.7) * (Math.PI * 2 / dur);
+                    const floatY = Math.sin(phase) * 15;
+                    const floatAngle = Math.cos(phase) * 6;
+
+                    berry.style.transform = `translate(calc(${rx + baseX}px), calc(${ry + baseY}px + ${floatY}px)) rotate(calc(${angle}deg + ${floatAngle}deg))`;
+                });
+            }
+
+            // Far background citrus drift — always
+            document.querySelectorAll('.leaf').forEach((leaf, i) => {
+                if (!leaf.offsetWidth) return; // hidden on mobile
+                const dur = 10 + i * 2;
+                const phase = (time + i * 1.2) * (Math.PI * 2 / dur);
+                const floatY = Math.sin(phase) * 20;
+                const floatX = Math.cos(phase * 0.5) * 15;
+                const floatAngle = Math.sin(phase * 0.3) * 15;
+                leaf.style.transform = `translate(${floatX}px, ${floatY}px) rotate(${floatAngle}deg)`;
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Bubbles Generator
+        const bubblesContainer = document.getElementById('bubbles-container');
+        function createBubble() {
+            if (!bubblesContainer) return;
+            const bubble = document.createElement('img');
+            bubble.src = 'assets/bubble.png';
+            bubble.className = 'bubble-img';
+            const size = Math.random() * 20 + 10 + 'px';
+            bubble.style.width = size;
+            bubble.style.height = 'auto';
+            bubble.style.left = Math.random() * 100 + '%';
+            bubble.style.bottom = '-50px';
+            bubble.style.opacity = Math.random() * 0.4 + 0.2;
+
+            const duration = Math.random() * 6 + 4;
+            bubble.style.animation = `floatUpImg ${duration}s linear forwards`;
+
+            bubblesContainer.appendChild(bubble);
+            setTimeout(() => bubble.remove(), duration * 1000);
+        }
+        setInterval(createBubble, window.innerWidth < 768 ? 800 : 400);
+    </script>
+</body>
+
+</html>

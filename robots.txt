@@ -1,0 +1,4 @@
+# Allow all crawlers. To keep this staging site out of Google,
+# change "Allow: /" to "Disallow: /" until launch.
+User-agent: *
+Allow: /
