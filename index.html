@@ -1506,6 +1506,54 @@
         const activeCard = document.querySelector('.card.active');
         if (activeCard) activeCard.scrollIntoView({ inline: 'center', block: 'nearest' });
 
+        // ===== Auto-tour: cycle through the flavors until the visitor takes over =====
+        const FLAVOR_ORDER = ['pinelime', 'grapefruit', 'passionfruit', 'ranchlime'];
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let autoTimer = null;
+
+        function stopAutoTour() {
+            if (autoTimer) {
+                clearInterval(autoTimer);
+                autoTimer = null;
+            }
+        }
+
+        function autoAdvance() {
+            if (document.hidden || isSwitching) return;
+            const current = document.querySelector('.card.active');
+            const idx = FLAVOR_ORDER.indexOf(current ? current.dataset.flavor : 'pinelime');
+            const next = FLAVOR_ORDER[(idx + 1) % FLAVOR_ORDER.length];
+            const card = document.querySelector(`.card[data-flavor="${next}"]`);
+            if (!card) return;
+            if (noHeroCan) {
+                // The snap scroller's settle handler applies the theme + active card
+                card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            } else {
+                cards.forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                switchFlavor(next);
+            }
+        }
+
+        function startAutoTour() {
+            if (reduceMotion || autoTimer) return;
+            autoTimer = setInterval(autoAdvance, 6500);
+        }
+
+        // A visitor choosing a flavor themselves ends the tour
+        cards.forEach(c => c.addEventListener('click', stopAutoTour));
+        const scrollerEl = document.querySelector('.carousel-cards');
+        ['pointerdown', 'touchstart', 'wheel'].forEach(ev => {
+            scrollerEl.addEventListener(ev, stopAutoTour, { passive: true });
+        });
+
+        // Begin once the visitor is past the age gate
+        if (ageOk) {
+            startAutoTour();
+        } else {
+            document.getElementById('gate-yes').addEventListener('click', startAutoTour);
+        }
+
         async function switchFlavor(flavor) {
             if (isSwitching) return;
             isSwitching = true;
