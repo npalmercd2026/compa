@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Shop | Compa Drinks Co</title>
+    <meta name="description"
+        content="Shop Compa tequila seltzers — Ranch Water two ways, Grapefruit & Blood Orange, and Passionfruit. 4-packs and the mixed Fiesta Case.">
+    <link rel="icon" href="assets/grapefruit.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500&family=Manrope:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/site.css">
+    <style>
+        body.page-shop {
+            --bg-inner: #d97a26;
+            --bg-mid: #7a3f0e;
+            --bg-outer: #1b0c02;
+        }
+
+        /* ===== Cart button (always visible, all screen sizes) ===== */
+        .cart-btn {
+            position: relative;
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--text-color);
+            border: none;
+            padding: 0.9rem 1.6rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            font-family: 'Manrope', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .cart-btn:hover {
+            background: rgba(0, 0, 0, 0.7);
+            transform: translateY(-2px);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            min-width: 22px;
+            height: 22px;
+            border-radius: 11px;
+            background: var(--accent-color);
+            color: var(--accent-text);
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5px;
+        }
+
+        .cart-count.show {
+            display: inline-flex;
+        }
+
+        /* ===== Product grid ===== */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.4rem;
+            margin-top: 3rem;
+        }
+
+        .product {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            padding: 1.4rem 1.4rem 1.6rem;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .product:hover {
+            transform: translateY(-6px);
+        }
+
+        .product .art {
+            height: 240px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            margin-bottom: 1.1rem;
+        }
+
+        .product .art img {
+            max-height: 100%;
+            width: auto;
+            filter: drop-shadow(0 18px 26px rgba(0, 0, 0, 0.45));
+            transition: transform 0.35s ease;
+        }
+
+        .product:hover .art img {
+            transform: rotate(-4deg) scale(1.04);
+        }
+
+        .product .art.case {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            align-items: end;
+            gap: 2px;
+        }
+
+        .product .art.case img {
+            max-height: 150px;
+            justify-self: center;
+        }
+
+        .product .art.case img:nth-child(1) { transform: rotate(-7deg); }
+        .product .art.case img:nth-child(2) { transform: rotate(-2deg) translateY(-8px); }
+        .product .art.case img:nth-child(3) { transform: rotate(3deg); }
+        .product .art.case img:nth-child(4) { transform: rotate(8deg) translateY(-5px); }
+
+        .product h3 {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .product .sub {
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.68rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--muted-color);
+            margin: 0.4rem 0 0.9rem;
+        }
+
+        .product .price {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .add-btn {
+            margin: auto auto 0;
+        }
+
+        .add-btn.added .plus-icon {
+            background: #7ad06d;
+        }
+
+        /* ===== Cart drawer ===== */
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 600;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: min(420px, 100vw);
+            z-index: 610;
+            background: rgba(24, 8, 2, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-left: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.cart-open .cart-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        body.cart-open .cart-drawer {
+            transform: translateX(0);
+        }
+
+        .cart-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.4rem 1.6rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .cart-head h2 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+
+        .cart-close {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-color);
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .cart-lines {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.2rem 1.6rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .cart-line {
+            display: grid;
+            grid-template-columns: 54px 1fr auto;
+            gap: 0.9rem;
+            align-items: center;
+        }
+
+        .cart-line img {
+            width: 54px;
+            height: 76px;
+            object-fit: contain;
+            filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.4));
+        }
+
+        .cart-line .name {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 700;
+            font-size: 0.82rem;
+        }
+
+        .cart-line .each {
+            font-size: 0.72rem;
+            color: var(--muted-color);
+        }
+
+        .qty {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            margin-top: 0.35rem;
+        }
+
+        .qty button {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-color);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .qty span {
+            font-size: 0.85rem;
+            min-width: 16px;
+            text-align: center;
+        }
+
+        .cart-line .line-total {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            color: var(--accent-color);
+        }
+
+        .cart-empty {
+            margin: auto;
+            text-align: center;
+            color: var(--muted-color);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .cart-foot {
+            border-top: 1px solid var(--glass-border);
+            padding: 1.2rem 1.6rem calc(1.4rem + env(safe-area-inset-bottom));
+        }
+
+        .cart-foot .row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--muted-color);
+            margin-bottom: 0.45rem;
+        }
+
+        .cart-foot .row.total {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            color: var(--text-color);
+            margin: 0.6rem 0 1rem;
+        }
+
+        .cart-foot .row.total span:last-child {
+            color: var(--accent-color);
+        }
+
+        .free-ship-note {
+            font-size: 0.7rem;
+            color: var(--muted-color);
+            text-align: center;
+            margin-bottom: 0.9rem;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .order-note {
+            font-size: 0.68rem;
+            color: var(--muted-color);
+            text-align: center;
+            margin-top: 0.8rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 900px) {
+            .product .art {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+
+<body class="page-shop">
+
+    <div class="age-gate" id="age-gate">
+        <img src="assets/compa-logo.png" alt="Compa Drinks Co">
+        <span class="gate-greeting">Hola, amigo — welcome to Compa Drinks Co</span>
+        <h2>Are you<br>over 18?</h2>
+        <div class="gate-buttons">
+            <button class="gate-yes" id="gate-yes">Sí, I am</button>
+            <a class="gate-no" href="https://drinkwise.org.au" target="_blank" rel="noopener">No, I'm not</a>
+        </div>
+    </div>
+
+    <div id="bubbles-container"></div>
+
+    <div class="floaters" aria-hidden="true">
+        <img src="assets/lime.svg" alt="" style="top: 16%; left: 4%; width: 90px;">
+        <img src="assets/grapefruit.svg" alt="" style="top: 48%; right: 4%; width: 110px; opacity: 0.5;">
+        <img src="assets/passionfruit.svg" alt="" style="bottom: 12%; left: 7%; width: 70px; opacity: 0.55;">
+    </div>
+
+    <header class="header">
+        <div class="logo">
+            <a href="index.html"><img src="assets/compa-logo.png" alt="Compa Drinks Co"></a>
+        </div>
+        <nav class="nav glass">
+            <a href="index.html" class="nav-item">Our Seltzers</a>
+            <a href="shop.html" class="nav-item active">Shop</a>
+            <a href="our-story.html" class="nav-item">Our Story</a>
+            <a href="tequila.html" class="nav-item">Tequila</a>
+            <a href="stockists.html" class="nav-item">Stockists</a>
+            <a href="contact.html" class="nav-item">Contact</a>
+        </nav>
+        <button class="cart-btn" id="cart-btn">Cart <span class="cart-count" id="cart-count">0</span></button>
+        <button class="menu-btn" id="menu-btn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+    </header>
+
+    <div class="mobile-menu" id="mobile-menu">
+        <button class="menu-close" id="menu-close" aria-label="Close menu">✕</button>
+        <a href="index.html">Our Seltzers</a>
+        <a href="shop.html" class="active">Shop</a>
+        <a href="our-story.html">Our Story</a>
+        <a href="tequila.html">Tequila</a>
+        <a href="stockists.html">Stockists</a>
+        <a href="contact.html">Contact</a>
+        <img src="assets/compa-logo.png" alt="" class="menu-logo">
+    </div>
+
+    <main class="page">
+        <span class="kicker reveal">The Bottle-O</span>
+        <h1 class="page-title reveal d1">
+            Grab A <span class="outline">Four-Pack</span>
+        </h1>
+        <p class="lede reveal d2">
+            Free shipping on orders over $60. Straight from the shed to your esky —
+            cold, canned and ready for the weekend.
+        </p>
+
+        <div class="product-grid" id="product-grid"></div>
+    </main>
+
+    <div class="drinkwise">Please drink responsibly. Get the facts: DrinkWise.org.au</div>
+
+    <!-- Cart drawer -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <aside class="cart-drawer" id="cart-drawer" aria-label="Shopping cart">
+        <div class="cart-head">
+            <h2>Your Esky</h2>
+            <button class="cart-close" id="cart-close" aria-label="Close cart">✕</button>
+        </div>
+        <div class="cart-lines" id="cart-lines"></div>
+        <div class="cart-foot" id="cart-foot"></div>
+    </aside>
+
+    <script src="assets/site.js"></script>
+    <script>
+        // ===== Catalog =====
+        const PRODUCTS = {
+            pinelime4: {
+                name: 'Ranch Water · Pine Lime',
+                sub: '4 × 330mL · 6.0%',
+                price: 24.99,
+                img: 'assets/shop/can-pine-lime.webp'
+            },
+            grapefruit4: {
+                name: 'Grapefruit & Blood Orange',
+                sub: '4 × 330mL · 4.0%',
+                price: 22.99,
+                img: 'assets/shop/can-grapefruit.webp'
+            },
+            passionfruit4: {
+                name: 'Passionfruit',
+                sub: '4 × 330mL · 4.0%',
+                price: 22.99,
+                img: 'assets/shop/can-passionfruit.webp'
+            },
+            ranchlime4: {
+                name: 'Ranch Water · Lime',
+                sub: '4 × 330mL · 6.0%',
+                price: 24.99,
+                img: 'assets/shop/can-ranch-lime.webp'
+            },
+            fiesta16: {
+                name: 'The Fiesta Case',
+                sub: '16 mixed · 4 of each',
+                price: 84.99,
+                img: 'assets/shop/can-pine-lime.webp',
+                caseImgs: ['assets/shop/can-pine-lime.webp', 'assets/shop/can-grapefruit.webp',
+                    'assets/shop/can-passionfruit.webp', 'assets/shop/can-ranch-lime.webp']
+            }
+        };
+
+        const SHIPPING = 9.95;
+        const FREE_SHIP_OVER = 60;
+        const CART_KEY = 'compa_cart';
+
+        function money(n) { return '$' + n.toFixed(2); }
+
+        function loadCart() {
+            try { return JSON.parse(localStorage.getItem(CART_KEY)) || {}; } catch (e) { return {}; }
+        }
+        function saveCart(cart) {
+            try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch (e) { }
+        }
+
+        let cart = loadCart();
+
+        // ===== Product grid =====
+        const grid = document.getElementById('product-grid');
+        Object.entries(PRODUCTS).forEach(([sku, p], i) => {
+            const el = document.createElement('div');
+            el.className = 'product card-glass reveal d' + Math.min(i + 1, 3);
+            const art = p.caseImgs
+                ? `<div class="art case">${p.caseImgs.map(s => `<img src="${s}" alt="">`).join('')}</div>`
+                : `<div class="art"><img src="${p.img}" alt="${p.name}"></div>`;
+            el.innerHTML = `${art}
+                <h3>${p.name}</h3>
+                <div class="sub">${p.sub}</div>
+                <div class="price">${money(p.price)}</div>
+                <button class="primary-btn add-btn" data-sku="${sku}">Add To Esky <span class="plus-icon">+</span></button>`;
+            grid.appendChild(el);
+        });
+
+        grid.addEventListener('click', e => {
+            const btn = e.target.closest('.add-btn');
+            if (!btn) return;
+            const sku = btn.dataset.sku;
+            cart[sku] = (cart[sku] || 0) + 1;
+            saveCart(cart);
+            renderCart();
+            btn.classList.add('added');
+            const label = btn.firstChild;
+            label.textContent = 'Added! ';
+            setTimeout(() => { btn.classList.remove('added'); label.textContent = 'Add To Esky '; }, 900);
+            openCart();
+        });
+
+        // ===== Cart drawer =====
+        const drawer = document.getElementById('cart-drawer');
+        const linesEl = document.getElementById('cart-lines');
+        const footEl = document.getElementById('cart-foot');
+        const countEl = document.getElementById('cart-count');
+
+        function openCart() { document.body.classList.add('cart-open'); }
+        function closeCart() { document.body.classList.remove('cart-open'); }
+        document.getElementById('cart-btn').addEventListener('click', openCart);
+        document.getElementById('cart-close').addEventListener('click', closeCart);
+        document.getElementById('cart-overlay').addEventListener('click', closeCart);
+
+        function cartCount() {
+            return Object.values(cart).reduce((a, b) => a + b, 0);
+        }
+        function cartSubtotal() {
+            return Object.entries(cart).reduce((sum, [sku, qty]) => sum + (PRODUCTS[sku] ? PRODUCTS[sku].price * qty : 0), 0);
+        }
+
+        function renderCart() {
+            // badge
+            const n = cartCount();
+            countEl.textContent = n;
+            countEl.classList.toggle('show', n > 0);
+
+            // lines
+            linesEl.innerHTML = '';
+            const entries = Object.entries(cart).filter(([sku, qty]) => PRODUCTS[sku] && qty > 0);
+            if (entries.length === 0) {
+                linesEl.innerHTML = '<div class="cart-empty">Your esky is empty, amigo.<br>Go grab a four-pack.</div>';
+                footEl.innerHTML = '';
+                return;
+            }
+            entries.forEach(([sku, qty]) => {
+                const p = PRODUCTS[sku];
+                const line = document.createElement('div');
+                line.className = 'cart-line';
+                line.innerHTML = `
+                    <img src="${p.img}" alt="">
+                    <div>
+                        <div class="name">${p.name}</div>
+                        <div class="each">${p.sub} · ${money(p.price)} each</div>
+                        <div class="qty">
+                            <button data-sku="${sku}" data-d="-1" aria-label="Less">−</button>
+                            <span>${qty}</span>
+                            <button data-sku="${sku}" data-d="1" aria-label="More">+</button>
+                        </div>
+                    </div>
+                    <div class="line-total">${money(p.price * qty)}</div>`;
+                linesEl.appendChild(line);
+            });
+
+            // totals
+            const sub = cartSubtotal();
+            const ship = sub >= FREE_SHIP_OVER ? 0 : SHIPPING;
+            const toFree = FREE_SHIP_OVER - sub;
+            footEl.innerHTML = `
+                <div class="row"><span>Subtotal</span><span>${money(sub)}</span></div>
+                <div class="row"><span>Shipping</span><span>${ship === 0 ? 'FREE' : money(ship)}</span></div>
+                <div class="row total"><span>Total</span><span>${money(sub + ship)}</span></div>
+                ${ship > 0 ? `<div class="free-ship-note">Add ${money(toFree)} more for free shipping</div>` : ''}
+                <button class="primary-btn checkout-btn" id="checkout-btn">Place Order <span class="plus-icon">→</span></button>
+                <div class="order-note">Online payments are coming soon — for now this sends your
+                order to us by email and we'll reply with payment details.</div>`;
+            document.getElementById('checkout-btn').addEventListener('click', checkout);
+        }
+
+        linesEl.addEventListener('click', e => {
+            const btn = e.target.closest('button[data-sku]');
+            if (!btn) return;
+            const sku = btn.dataset.sku;
+            cart[sku] = (cart[sku] || 0) + Number(btn.dataset.d);
+            if (cart[sku] <= 0) delete cart[sku];
+            saveCart(cart);
+            renderCart();
+        });
+
+        function checkout() {
+            const entries = Object.entries(cart).filter(([sku, qty]) => PRODUCTS[sku] && qty > 0);
+            if (entries.length === 0) return;
+            const sub = cartSubtotal();
+            const ship = sub >= FREE_SHIP_OVER ? 0 : SHIPPING;
+            const lines = entries.map(([sku, qty]) => {
+                const p = PRODUCTS[sku];
+                return `${qty} x ${p.name} (${p.sub}) — ${money(p.price * qty)}`;
+            });
+            const body = [
+                'Hola Compa, I\'d like to order:',
+                '',
+                ...lines,
+                '',
+                `Subtotal: ${money(sub)}`,
+                `Shipping: ${ship === 0 ? 'FREE' : money(ship)}`,
+                `Total: ${money(sub + ship)}`,
+                '',
+                'Delivery name:',
+                'Delivery address:',
+                'Phone:',
+                '',
+                '(I confirm I am 18+)'
+            ].join('\n');
+            window.location.href = 'mailto:orders@compadrinks.com.au'
+                + '?subject=' + encodeURIComponent('Compa order — ' + cartCount() + ' item(s)')
+                + '&body=' + encodeURIComponent(body);
+        }
+
+        renderCart();
+    </script>
+</body>
+
+</html>
