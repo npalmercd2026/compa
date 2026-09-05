@@ -1,0 +1,31 @@
+# Deploys the site to Cloudflare Pages on every push to main.
+#
+# Requires two repo secrets (Settings -> Secrets and variables -> Actions):
+#   CLOUDFLARE_API_TOKEN   - API token with "Cloudflare Pages: Edit" permission
+#   CLOUDFLARE_ACCOUNT_ID  - from the Cloudflare dashboard sidebar
+#
+# If you connect the repo via the Cloudflare Pages dashboard instead
+# (the simpler option), delete this file - CF handles deploys itself.
+
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy . --project-name=compa-site
