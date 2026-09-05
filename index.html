@@ -940,10 +940,26 @@
                 display: none;
             }
 
+            /* Phones scroll naturally — never clip content into a fixed screen
+               (Safari's toolbars shrink the visible area unpredictably) */
+            body {
+                height: auto;
+                min-height: 100dvh;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+
             .hero {
+                height: auto;
+                min-height: 100dvh;
                 padding: 0 5%;
-                padding-top: 3.8rem;
-                padding-bottom: 1.7rem;
+                padding-top: 4.2rem;
+                padding-bottom: 0.8rem;
+            }
+
+            .hero-content {
+                height: auto;
+                gap: 1.4rem;
             }
 
             .hero-content {
@@ -1007,7 +1023,13 @@
             }
 
             .card-can {
-                height: 30vh;
+                height: 36vh;
+            }
+
+            /* Citrus floats behind the copy and the cans, never over them */
+            .berries-container,
+            .berries-container-bg {
+                z-index: 1;
             }
 
             .shelf-cta {
@@ -1085,9 +1107,14 @@
                 height: 56px;
             }
 
+            /* In flow at the end of the page instead of floating over content */
             .drinkwise {
+                position: static;
+                transform: none;
+                text-align: center;
                 font-size: 0.55rem;
-                bottom: 0.35rem;
+                padding: 0.9rem 1rem calc(0.9rem + env(safe-area-inset-bottom));
+                white-space: normal;
             }
 
             .age-gate img {
