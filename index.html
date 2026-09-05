@@ -655,7 +655,8 @@
             text-align: right;
             height: 100%;
             padding: 6rem 0;
-            z-index: 100;
+            /* Above the floating citrus (110) so slices never cover the flavor cards */
+            z-index: 120;
             width: 450px;
             pointer-events: none;
         }
@@ -776,6 +777,8 @@
         .side-title {
             align-self: flex-end;
             text-align: right;
+            /* Smaller than the main title so it stays clear of the 3D can */
+            font-size: clamp(2.2rem, 4.5vw, 4.8rem);
         }
 
         .drinkwise {
