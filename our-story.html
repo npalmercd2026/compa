@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Our Story | Compa Drinks Co</title>
+    <meta name="description"
+        content="How two amigos and one trip to Jalisco became Compa Drinks Co — tequila seltzers made with real Blanco tequila.">
+    <link rel="icon" href="assets/grapefruit.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500&family=Manrope:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/site.css">
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+    <style>
+        .story-can {
+            width: 100%;
+            height: 480px;
+            --poster-color: transparent;
+            pointer-events: none;
+        }
+
+        .timeline {
+            display: grid;
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
+
+        .timeline .card-glass {
+            display: grid;
+            grid-template-columns: 90px 1fr;
+            gap: 1.4rem;
+            align-items: start;
+        }
+
+        .timeline .year {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            color: var(--accent-color);
+            line-height: 1.1;
+        }
+
+        @media (max-width: 900px) {
+            .story-can {
+                height: 340px;
+            }
+        }
+    </style>
+</head>
+
+<body class="page-story">
+
+    <div class="age-gate" id="age-gate">
+        <img src="assets/compa-logo.png" alt="Compa Drinks Co">
+        <span class="gate-greeting">Hola, amigo — welcome to Compa Drinks Co</span>
+        <h2>Are you<br>over 18?</h2>
+        <div class="gate-buttons">
+            <button class="gate-yes" id="gate-yes">Sí, I am</button>
+            <a class="gate-no" href="https://drinkwise.org.au" target="_blank" rel="noopener">No, I'm not</a>
+        </div>
+    </div>
+
+    <div id="bubbles-container"></div>
+
+    <div class="floaters" aria-hidden="true">
+        <img src="assets/grapefruit.svg" alt="" style="top: 16%; left: 6%; width: 110px;">
+        <img src="assets/grapefruit.svg" alt="" style="top: 62%; left: 3%; width: 70px; opacity: 0.55;">
+        <img src="assets/lime.svg" alt="" style="top: 30%; right: 5%; width: 90px;">
+        <img src="assets/grapefruit.svg" alt="" style="bottom: 10%; right: 12%; width: 130px; opacity: 0.4;">
+    </div>
+
+    <header class="header">
+        <div class="logo">
+            <a href="index.html"><img src="assets/compa-logo.png" alt="Compa Drinks Co"></a>
+        </div>
+        <nav class="nav glass">
+            <a href="index.html" class="nav-item">Our Seltzers</a>
+            <a href="our-story.html" class="nav-item active">Our Story</a>
+            <a href="tequila.html" class="nav-item">Tequila</a>
+            <a href="stockists.html" class="nav-item">Stockists</a>
+            <a href="contact.html" class="nav-item">Contact</a>
+        </nav>
+        <a class="contact-btn" href="stockists.html">Find Compa</a>
+        <button class="menu-btn" id="menu-btn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+    </header>
+
+    <div class="mobile-menu" id="mobile-menu">
+        <button class="menu-close" id="menu-close" aria-label="Close menu">✕</button>
+        <a href="index.html">Our Seltzers</a>
+        <a href="our-story.html" class="active">Our Story</a>
+        <a href="tequila.html">Tequila</a>
+        <a href="stockists.html">Stockists</a>
+        <a href="contact.html">Contact</a>
+        <img src="assets/compa-logo.png" alt="" class="menu-logo">
+    </div>
+
+    <main class="page">
+        <div class="grid-2">
+            <div>
+                <span class="kicker reveal">Our Story</span>
+                <h1 class="page-title reveal d1">
+                    <span class="outline">Dos Amigos,</span><br>
+                    Una Idea
+                </h1>
+                <p class="lede reveal d2">
+                    Compa started the way all the best ideas do — two mates, a beat-up ute,
+                    and a road trip through Jalisco that neither of us wanted to end.
+                </p>
+            </div>
+            <model-viewer class="story-can reveal d2" src="assets/can-grapefruit.glb"
+                alt="Compa Grapefruit and Blood Orange can rotating in 3D" auto-rotate auto-rotate-delay="0"
+                rotation-per-second="24deg" camera-orbit="0deg 86deg 108%" field-of-view="30deg"
+                interaction-prompt="none" shadow-intensity="0" disable-zoom disable-pan disable-tap>
+                <div slot="progress-bar"></div>
+            </model-viewer>
+        </div>
+
+        <div class="section prose reveal d3">
+            <h2 class="section-head">From The <span class="outline">Highlands</span><br>To Your Esky</h2>
+            <p>
+                Somewhere between Guadalajara and Tequila town, sharing a Paloma with a
+                <strong>compa</strong> — that's Mexican slang for your mate, your compadre —
+                we asked the obvious question: why does every seltzer back home taste like
+                someone whispered the word "fruit" at a glass of soda water?
+            </p>
+            <p>
+                So we did it properly. <strong>Real Blanco tequila</strong> from a family
+                distillery in Jalisco. Real fruit. Sparkling water. Nothing else worth
+                mentioning — no mountains of sugar, no mystery "spirit base", no shortcuts.
+            </p>
+        </div>
+
+        <blockquote class="pull-quote">
+            "A seltzer worth sharing with your <em>compa</em> —<br>
+            or it doesn't leave the shed."
+        </blockquote>
+
+        <div class="timeline section">
+            <div class="card-glass">
+                <div class="year">2023</div>
+                <div>
+                    <h3>The Trip</h3>
+                    <p>Three weeks in Jalisco. Too many Palomas to count. One idea scribbled
+                        on the back of a bus ticket somewhere outside Arandas.</p>
+                </div>
+            </div>
+            <div class="card-glass">
+                <div class="year">2024</div>
+                <div>
+                    <h3>The Shed Batches</h3>
+                    <p>Forty-one test batches in a mate's shed in Brunswick. Batch #27 nearly
+                        ended the friendship. Batch #41 became Ranch Water.</p>
+                </div>
+            </div>
+            <div class="card-glass">
+                <div class="year">2025</div>
+                <div>
+                    <h3>First Cans</h3>
+                    <p>We shook hands with a fourth-generation distillery (NOM 1110) and put
+                        our first four seltzers into cans — two Ranch Waters, a grapefruit
+                        &amp; blood orange, and a passionfruit.</p>
+                </div>
+            </div>
+            <div class="card-glass">
+                <div class="year">Hoy</div>
+                <div>
+                    <h3>Salud, Amigos</h3>
+                    <p>Landing in fridges across Australia. Same rule as day one: if we
+                        wouldn't hand it to a compa, it doesn't get canned.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" style="text-align: center;">
+            <a class="primary-btn" href="index.html">Meet The Seltzers <span class="plus-icon">+</span></a>
+        </div>
+    </main>
+
+    <div class="drinkwise">Please drink responsibly. Get the facts: DrinkWise.org.au</div>
+
+    <script src="assets/site.js"></script>
+</body>
+
+</html>

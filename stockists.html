@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Stockists | Compa Drinks Co</title>
+    <meta name="description"
+        content="Find Compa tequila seltzers near you — rolling out to independent bottle shops and venues across Australia.">
+    <link rel="icon" href="assets/lime.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500&family=Manrope:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/site.css">
+    <style>
+        .state-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .state-card .state {
+            font-family: var(--font-heading);
+            font-size: 2.4rem;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .state-card .status {
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.68rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .state-card.soon .status {
+            color: var(--muted-color);
+        }
+
+        .wholesale {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+            .wholesale {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body class="page-stockists">
+
+    <div class="age-gate" id="age-gate">
+        <img src="assets/compa-logo.png" alt="Compa Drinks Co">
+        <span class="gate-greeting">Hola, amigo — welcome to Compa Drinks Co</span>
+        <h2>Are you<br>over 18?</h2>
+        <div class="gate-buttons">
+            <button class="gate-yes" id="gate-yes">Sí, I am</button>
+            <a class="gate-no" href="https://drinkwise.org.au" target="_blank" rel="noopener">No, I'm not</a>
+        </div>
+    </div>
+
+    <div id="bubbles-container"></div>
+
+    <div class="floaters" aria-hidden="true">
+        <img src="assets/lime.svg" alt="" style="top: 20%; left: 4%; width: 90px;">
+        <img src="assets/grapefruit.svg" alt="" style="top: 55%; right: 5%; width: 110px; opacity: 0.5;">
+        <img src="assets/passionfruit.svg" alt="" style="bottom: 12%; left: 8%; width: 70px; opacity: 0.55;">
+    </div>
+
+    <header class="header">
+        <div class="logo">
+            <a href="index.html"><img src="assets/compa-logo.png" alt="Compa Drinks Co"></a>
+        </div>
+        <nav class="nav glass">
+            <a href="index.html" class="nav-item">Our Seltzers</a>
+            <a href="our-story.html" class="nav-item">Our Story</a>
+            <a href="tequila.html" class="nav-item">Tequila</a>
+            <a href="stockists.html" class="nav-item active">Stockists</a>
+            <a href="contact.html" class="nav-item">Contact</a>
+        </nav>
+        <a class="contact-btn" href="contact.html">Get In Touch</a>
+        <button class="menu-btn" id="menu-btn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+    </header>
+
+    <div class="mobile-menu" id="mobile-menu">
+        <button class="menu-close" id="menu-close" aria-label="Close menu">✕</button>
+        <a href="index.html">Our Seltzers</a>
+        <a href="our-story.html">Our Story</a>
+        <a href="tequila.html">Tequila</a>
+        <a href="stockists.html" class="active">Stockists</a>
+        <a href="contact.html">Contact</a>
+        <img src="assets/compa-logo.png" alt="" class="menu-logo">
+    </div>
+
+    <main class="page">
+        <span class="kicker reveal">Stockists</span>
+        <h1 class="page-title reveal d1">
+            <span class="outline">Find</span> Compa
+        </h1>
+        <p class="lede reveal d2">
+            We're rolling out state by state — starting with the independent bottle shops
+            and venues that backed us from batch one. Here's where things stand.
+        </p>
+
+        <div class="grid-cards section reveal d3">
+            <div class="card-glass state-card">
+                <div class="state">VIC</div>
+                <div class="status">Pouring Now</div>
+                <p>Independent bottle shops and bars across Melbourne's inner north —
+                    where the shed batches were born.</p>
+            </div>
+            <div class="card-glass state-card">
+                <div class="state">NSW</div>
+                <div class="status">Pouring Now</div>
+                <p>Landing in selected indies across Sydney's inner west and the
+                    Northern Beaches.</p>
+            </div>
+            <div class="card-glass state-card soon">
+                <div class="state">QLD</div>
+                <div class="status">Summer 2026</div>
+                <p>Brisbane and the Goldy are next on the list. Ranch Water was made
+                    for this weather.</p>
+            </div>
+            <div class="card-glass state-card soon">
+                <div class="state">WA</div>
+                <div class="status">Coming Soon</div>
+                <p>Hold tight, Perth — the cans are worth the wait.</p>
+            </div>
+            <div class="card-glass state-card soon">
+                <div class="state">SA</div>
+                <div class="status">Coming Soon</div>
+                <p>Adelaide, we haven't forgotten you. Watch this space.</p>
+            </div>
+            <div class="card-glass state-card soon">
+                <div class="state">TAS · NT · ACT</div>
+                <div class="status">On The Ute</div>
+                <p>Everywhere else — we're coming, one esky at a time.</p>
+            </div>
+        </div>
+
+        <div class="card-glass wholesale section">
+            <div>
+                <h2 class="section-head" style="margin-bottom: 0.8rem;">Want To <span class="outline">Stock</span>
+                    Compa?</h2>
+                <p style="color: var(--muted-color); font-size: 0.95rem; line-height: 1.7;">
+                    Bottle shop, bar, bottle-o, beach club — if your fridge has room for
+                    four very good-looking cans, we'd love to hear from you.
+                </p>
+            </div>
+            <div style="text-align: center;">
+                <a class="primary-btn" href="contact.html">Talk Wholesale <span class="plus-icon">+</span></a>
+            </div>
+        </div>
+    </main>
+
+    <div class="drinkwise">Please drink responsibly. Get the facts: DrinkWise.org.au</div>
+
+    <script src="assets/site.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Tequila | Compa Drinks Co</title>
+    <meta name="description"
+        content="The tequila inside Compa — 100% blue agave Blanco from a family distillery in Jalisco, Mexico (NOM 1110). No mystery spirit base, ever.">
+    <link rel="icon" href="assets/lime.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500&family=Manrope:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/site.css">
+    <style>
+        .agave-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 100px;
+            padding: 0.7rem 1.4rem;
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--muted-color);
+            margin-top: 2rem;
+        }
+
+        .agave-badge img {
+            width: 26px;
+        }
+    </style>
+</head>
+
+<body class="page-tequila">
+
+    <div class="age-gate" id="age-gate">
+        <img src="assets/compa-logo.png" alt="Compa Drinks Co">
+        <span class="gate-greeting">Hola, amigo — welcome to Compa Drinks Co</span>
+        <h2>Are you<br>over 18?</h2>
+        <div class="gate-buttons">
+            <button class="gate-yes" id="gate-yes">Sí, I am</button>
+            <a class="gate-no" href="https://drinkwise.org.au" target="_blank" rel="noopener">No, I'm not</a>
+        </div>
+    </div>
+
+    <div id="bubbles-container"></div>
+
+    <div class="floaters" aria-hidden="true">
+        <img src="assets/lime.svg" alt="" style="top: 18%; left: 5%; width: 100px;">
+        <img src="assets/lime.svg" alt="" style="top: 58%; right: 4%; width: 130px; opacity: 0.5;">
+        <img src="assets/lime.svg" alt="" style="bottom: 14%; left: 10%; width: 70px; opacity: 0.6;">
+        <img src="assets/grapefruit.svg" alt="" style="top: 34%; right: 12%; width: 60px; opacity: 0.35;">
+    </div>
+
+    <header class="header">
+        <div class="logo">
+            <a href="index.html"><img src="assets/compa-logo.png" alt="Compa Drinks Co"></a>
+        </div>
+        <nav class="nav glass">
+            <a href="index.html" class="nav-item">Our Seltzers</a>
+            <a href="our-story.html" class="nav-item">Our Story</a>
+            <a href="tequila.html" class="nav-item active">Tequila</a>
+            <a href="stockists.html" class="nav-item">Stockists</a>
+            <a href="contact.html" class="nav-item">Contact</a>
+        </nav>
+        <a class="contact-btn" href="stockists.html">Find Compa</a>
+        <button class="menu-btn" id="menu-btn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+    </header>
+
+    <div class="mobile-menu" id="mobile-menu">
+        <button class="menu-close" id="menu-close" aria-label="Close menu">✕</button>
+        <a href="index.html">Our Seltzers</a>
+        <a href="our-story.html">Our Story</a>
+        <a href="tequila.html" class="active">Tequila</a>
+        <a href="stockists.html">Stockists</a>
+        <a href="contact.html">Contact</a>
+        <img src="assets/compa-logo.png" alt="" class="menu-logo">
+    </div>
+
+    <main class="page">
+        <span class="kicker reveal">The Good Stuff</span>
+        <h1 class="page-title reveal d1">
+            <span class="outline">100% Blue</span><br>
+            Agave
+        </h1>
+        <p class="lede reveal d2">
+            Every Compa is built on real Blanco tequila from a fourth-generation family
+            distillery in the highlands of Jalisco, Mexico — certified under
+            <strong>NOM&nbsp;1110</strong>. No "agave-flavoured spirit". No mystery base.
+        </p>
+        <div class="agave-badge reveal d3">
+            <img src="assets/lime.svg" alt="">
+            100% Blue Agave · Blanco · Jalisco, MX · NOM 1110 CRT
+        </div>
+
+        <div class="stats section reveal d3">
+            <div class="stat card-glass">
+                <div class="value">100%</div>
+                <div class="label">Blue Weber Agave</div>
+            </div>
+            <div class="stat card-glass">
+                <div class="value">2X</div>
+                <div class="label">Copper-Pot Distilled</div>
+            </div>
+            <div class="stat card-glass">
+                <div class="value">7 YRS</div>
+                <div class="label">Agave Maturation</div>
+            </div>
+            <div class="stat card-glass">
+                <div class="value">0</div>
+                <div class="label">Additives</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-head">Agave To <span class="outline">Lata</span></h2>
+            <div class="grid-cards">
+                <div class="card-glass">
+                    <div class="step-num">01</div>
+                    <h3>La Jima</h3>
+                    <p>Agave grown for seven years in the red highland soil of Los Altos,
+                        harvested by hand by jimadores who've done it for generations.</p>
+                </div>
+                <div class="card-glass">
+                    <div class="step-num">02</div>
+                    <h3>El Horno</h3>
+                    <p>Piñas slow-roasted in traditional brick ovens — no diffusers, no
+                        rushing — so the sweetness comes from agave, not additives.</p>
+                </div>
+                <div class="card-glass">
+                    <div class="step-num">03</div>
+                    <h3>Destilación</h3>
+                    <p>Twice distilled in copper pot stills and bottled as crisp, peppery
+                        Blanco — the honest expression of the plant.</p>
+                </div>
+                <div class="card-glass">
+                    <div class="step-num">04</div>
+                    <h3>La Lata</h3>
+                    <p>Blended with sparkling water and real fruit, then canned in small
+                        batches. 4.0–6.0% ALC/VOL. Low sugar, low calorie, gluten free.</p>
+                </div>
+            </div>
+        </div>
+
+        <blockquote class="pull-quote">
+            If the tequila isn't worth sipping neat,<br>
+            it isn't worth <em>canning</em>.
+        </blockquote>
+
+        <div class="section" style="text-align: center;">
+            <a class="primary-btn" href="index.html">Taste It In 3D <span class="plus-icon">+</span></a>
+        </div>
+    </main>
+
+    <div class="drinkwise">Please drink responsibly. Get the facts: DrinkWise.org.au</div>
+
+    <script src="assets/site.js"></script>
+</body>
+
+</html>

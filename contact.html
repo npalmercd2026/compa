@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Contact | Compa Drinks Co</title>
+    <meta name="description"
+        content="Say hola to Compa Drinks Co — general enquiries, wholesale, press, or just to talk tequila seltzers.">
+    <link rel="icon" href="assets/passionfruit.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500&family=Manrope:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/site.css">
+    <style>
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .contact-form label {
+            display: block;
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.68rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--muted-color);
+            margin: 1.2rem 0 0.5rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 0.9rem 1.1rem;
+            color: var(--text-color);
+            font-family: var(--font-main);
+            font-size: 0.92rem;
+            outline: none;
+            transition: border-color 0.25s ease;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: var(--accent-color);
+        }
+
+        .contact-form textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .contact-form button {
+            margin-top: 1.6rem;
+        }
+
+        .contact-card+.contact-card {
+            margin-top: 1.2rem;
+        }
+
+        .contact-card a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-card a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 900px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body class="page-contact">
+
+    <div class="age-gate" id="age-gate">
+        <img src="assets/compa-logo.png" alt="Compa Drinks Co">
+        <span class="gate-greeting">Hola, amigo — welcome to Compa Drinks Co</span>
+        <h2>Are you<br>over 18?</h2>
+        <div class="gate-buttons">
+            <button class="gate-yes" id="gate-yes">Sí, I am</button>
+            <a class="gate-no" href="https://drinkwise.org.au" target="_blank" rel="noopener">No, I'm not</a>
+        </div>
+    </div>
+
+    <div id="bubbles-container"></div>
+
+    <div class="floaters" aria-hidden="true">
+        <img src="assets/passionfruit.svg" alt="" style="top: 18%; left: 5%; width: 100px;">
+        <img src="assets/passionfruit.svg" alt="" style="top: 60%; right: 4%; width: 130px; opacity: 0.45;">
+        <img src="assets/lime.svg" alt="" style="bottom: 12%; left: 9%; width: 70px; opacity: 0.5;">
+    </div>
+
+    <header class="header">
+        <div class="logo">
+            <a href="index.html"><img src="assets/compa-logo.png" alt="Compa Drinks Co"></a>
+        </div>
+        <nav class="nav glass">
+            <a href="index.html" class="nav-item">Our Seltzers</a>
+            <a href="our-story.html" class="nav-item">Our Story</a>
+            <a href="tequila.html" class="nav-item">Tequila</a>
+            <a href="stockists.html" class="nav-item">Stockists</a>
+            <a href="contact.html" class="nav-item active">Contact</a>
+        </nav>
+        <a class="contact-btn" href="stockists.html">Find Compa</a>
+        <button class="menu-btn" id="menu-btn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+    </header>
+
+    <div class="mobile-menu" id="mobile-menu">
+        <button class="menu-close" id="menu-close" aria-label="Close menu">✕</button>
+        <a href="index.html">Our Seltzers</a>
+        <a href="our-story.html">Our Story</a>
+        <a href="tequila.html">Tequila</a>
+        <a href="stockists.html">Stockists</a>
+        <a href="contact.html" class="active">Contact</a>
+        <img src="assets/compa-logo.png" alt="" class="menu-logo">
+    </div>
+
+    <main class="page">
+        <span class="kicker reveal">Contact</span>
+        <h1 class="page-title reveal d1">
+            Say <span class="outline">Hola</span>
+        </h1>
+        <p class="lede reveal d2">
+            Wholesale, press, events, or just keen to tell us which flavor is best
+            (it's Ranch Water) — drop us a line and a real human compa will reply.
+        </p>
+
+        <div class="contact-grid section">
+            <form class="contact-form card-glass reveal d2" id="contact-form">
+                <h3 style="font-family: var(--font-heading); font-size: 1.4rem; text-transform: uppercase; font-weight: 400;">
+                    Send A Message</h3>
+                <label for="cf-name">Name</label>
+                <input id="cf-name" name="name" type="text" required autocomplete="name">
+                <label for="cf-email">Email</label>
+                <input id="cf-email" name="email" type="email" required autocomplete="email">
+                <label for="cf-message">Message</label>
+                <textarea id="cf-message" name="message" required></textarea>
+                <button class="primary-btn" type="submit">Send It <span class="plus-icon">+</span></button>
+            </form>
+
+            <div class="reveal d3">
+                <div class="card-glass contact-card">
+                    <h3>General</h3>
+                    <p>Anything and everything —<br><a href="mailto:hola@compadrinks.com.au">hola@compadrinks.com.au</a>
+                    </p>
+                </div>
+                <div class="card-glass contact-card">
+                    <h3>Wholesale</h3>
+                    <p>Stock Compa in your venue —<br><a
+                            href="mailto:sales@compadrinks.com.au">sales@compadrinks.com.au</a></p>
+                </div>
+                <div class="card-glass contact-card">
+                    <h3>Socials</h3>
+                    <p>Come say hola — <strong>@compadrinksco</strong> on Instagram and TikTok.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="drinkwise">Please drink responsibly. Get the facts: DrinkWise.org.au</div>
+
+    <script src="assets/site.js"></script>
+    <script>
+        // No backend yet — the form opens the visitor's mail client pre-filled.
+        document.getElementById('contact-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var name = document.getElementById('cf-name').value;
+            var email = document.getElementById('cf-email').value;
+            var message = document.getElementById('cf-message').value;
+            var body = message + '\n\n— ' + name + ' (' + email + ')';
+            window.location.href = 'mailto:hola@compadrinks.com.au'
+                + '?subject=' + encodeURIComponent('Hola from ' + name)
+                + '&body=' + encodeURIComponent(body);
+        });
+    </script>
+</body>
+
+</html>
