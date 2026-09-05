@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Compa Drinks Co | Tequila Seltzers</title>
-    <meta name="description" content="Tequila seltzers inspired by Mexico's favourite cocktails — the Paloma and the Margarita. Low sugar, low calorie, gluten free.">
+    <meta name="description" content="Tequila seltzers made with real Blanco tequila — Ranch Water two ways, Grapefruit & Blood Orange, and Passionfruit. Low sugar, low calorie, gluten free.">
     <link rel="icon" href="assets/grapefruit.svg" type="image/svg+xml">
     <meta property="og:title" content="Compa Drinks Co | Tequila Seltzers">
-    <meta property="og:description" content="Tequila seltzers inspired by Mexico's favourite cocktails — the Paloma and the Margarita. Low sugar, low calorie, gluten free.">
+    <meta property="og:description" content="Tequila seltzers made with real Blanco tequila — Ranch Water two ways, Grapefruit & Blood Orange, and Passionfruit. Low sugar, low calorie, gluten free.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="assets/compa-logo.png">    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,10 +29,10 @@
             --font-main: 'Inter', sans-serif;
             --font-heading: 'Anton', sans-serif;
 
-            /* Dynamic Background — Paloma (default) */
-            --bg-inner: #b5484f;
-            --bg-mid: #5f2129;
-            --bg-outer: #150507;
+            /* Dynamic Background — Ranch Water Pine Lime (default) */
+            --bg-inner: #d97a26;
+            --bg-mid: #7a3f0e;
+            --bg-outer: #1b0c02;
         }
 
         * {
@@ -51,10 +51,22 @@
             transition: background 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        body.theme-margarita {
-            --bg-inner: #6f9d23;
-            --bg-mid: #3a5510;
-            --bg-outer: #0d1402;
+        body.theme-grapefruit {
+            --bg-inner: #b5484f;
+            --bg-mid: #5f2129;
+            --bg-outer: #150507;
+        }
+
+        body.theme-passionfruit {
+            --bg-inner: #a5326e;
+            --bg-mid: #571738;
+            --bg-outer: #140409;
+        }
+
+        body.theme-ranchlime {
+            --bg-inner: #3e8fc4;
+            --bg-mid: #1d4a68;
+            --bg-outer: #051019;
         }
 
         /* ============ Bubbles ============ */
@@ -529,12 +541,20 @@
             transition: background 0.4s ease;
         }
 
-        .compa-can.flavor-paloma .can-body {
-            background: linear-gradient(165deg, #d96058 0%, #a03340 55%, #611a26 100%);
+        .compa-can.flavor-pinelime .can-body {
+            background: linear-gradient(165deg, #f59a3c 0%, #e0700f 55%, #8a3d08 100%);
         }
 
-        .compa-can.flavor-margarita .can-body {
-            background: linear-gradient(165deg, #8fbc37 0%, #55771a 55%, #2e460c 100%);
+        .compa-can.flavor-grapefruit .can-body {
+            background: linear-gradient(165deg, #e05a4a 0%, #c02d24 55%, #6b130e 100%);
+        }
+
+        .compa-can.flavor-passionfruit .can-body {
+            background: linear-gradient(165deg, #b64a86 0%, #8d2760 55%, #4a1030 100%);
+        }
+
+        .compa-can.flavor-ranchlime .can-body {
+            background: linear-gradient(165deg, #7cc0e8 0%, #3d95c9 55%, #175a83 100%);
         }
 
         /* sheen */
@@ -650,7 +670,10 @@
 
         .carousel-cards {
             display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
             gap: 1rem;
+            max-width: 300px;
         }
 
         .card {
@@ -706,12 +729,20 @@
             transform: translateY(-24px) rotate(-10deg) scale(1.12) !important;
         }
 
-        .mini-can.flavor-paloma {
-            background: linear-gradient(165deg, #d96058 0%, #a03340 55%, #611a26 100%);
+        .mini-can.flavor-pinelime {
+            background: linear-gradient(165deg, #f59a3c 0%, #e0700f 55%, #8a3d08 100%);
         }
 
-        .mini-can.flavor-margarita {
-            background: linear-gradient(165deg, #8fbc37 0%, #55771a 55%, #2e460c 100%);
+        .mini-can.flavor-grapefruit {
+            background: linear-gradient(165deg, #e05a4a 0%, #c02d24 55%, #6b130e 100%);
+        }
+
+        .mini-can.flavor-passionfruit {
+            background: linear-gradient(165deg, #b64a86 0%, #8d2760 55%, #4a1030 100%);
+        }
+
+        .mini-can.flavor-ranchlime {
+            background: linear-gradient(165deg, #7cc0e8 0%, #3d95c9 55%, #175a83 100%);
         }
 
         .mini-can img {
@@ -985,6 +1016,8 @@
             .carousel-cards {
                 justify-content: center;
                 width: 100%;
+                max-width: 262px;
+                margin: 0 auto;
             }
 
             .card {
@@ -1089,10 +1122,10 @@
                     Amigos
                 </h1>
                 <p class="description">
-                    Tequila seltzers inspired by Mexico's <br>
-                    favourite cocktails — the Paloma and <br>
-                    the Margarita. Low sugar, low calorie, <br>
-                    gluten free. Real Blanco tequila.
+                    Four tequila seltzers made with real <br>
+                    Blanco tequila — Ranch Water two ways, <br>
+                    grapefruit &amp; blood orange, and passionfruit. <br>
+                    Low sugar, low calorie, gluten free.
                 </p>
                 <div class="cta-group">
                     <button class="primary-btn">
@@ -1112,26 +1145,26 @@
             </div>
 
             <div class="berries-container-bg">
-                <img class="berry b7" src="assets/grapefruit.svg" alt="">
-                <img class="berry b8" src="assets/grapefruit.svg" alt="">
-                <img class="berry b9" src="assets/grapefruit.svg" alt="">
+                <img class="berry b7" src="assets/lime.svg" alt="">
+                <img class="berry b8" src="assets/lime.svg" alt="">
+                <img class="berry b9" src="assets/lime.svg" alt="">
             </div>
 
             <div class="hero-center">
                 <div class="can-stage" id="can-stage">
-                    <model-viewer id="can-3d" src="assets/can-paloma.glb" alt="Compa Paloma tequila seltzer can in 3D"
+                    <model-viewer id="can-3d" src="assets/can-pine-lime.glb" alt="Compa Ranch Water tequila seltzer can in 3D"
                         loading="eager" reveal="auto" disable-zoom disable-pan disable-tap
                         interaction-prompt="none" interpolation-decay="50" shadow-intensity="0"
                         camera-orbit="0deg 88deg 105%" field-of-view="28deg">
                         <div slot="progress-bar"></div>
                     </model-viewer>
-                    <div id="product-can" class="compa-can flavor-paloma">
+                    <div id="product-can" class="compa-can flavor-pinelime">
                         <div class="can-lid"></div>
                         <div class="can-body">
                             <img class="can-logo" src="assets/compa-logo.png" alt="Compa">
-                            <div class="can-flavor" id="can-flavor-name">Paloma</div>
+                            <div class="can-flavor" id="can-flavor-name">Ranch Water</div>
                             <div class="can-tag">Tequila Seltzer</div>
-                            <div class="can-abv">330mL · 4.5% ALC/VOL</div>
+                            <div class="can-abv" id="can-abv">330mL · 6.0% ALC/VOL</div>
                         </div>
                         <div class="can-base"></div>
                     </div>
@@ -1139,35 +1172,55 @@
             </div>
 
             <div class="berries-container">
-                <img class="berry b1" src="assets/grapefruit.svg" alt="">
-                <img class="berry b2" src="assets/grapefruit.svg" alt="">
-                <img class="berry b3" src="assets/grapefruit.svg" alt="">
-                <img class="berry b4" src="assets/grapefruit.svg" alt="">
-                <img class="berry b5" src="assets/grapefruit.svg" alt="">
-                <img class="berry b6" src="assets/grapefruit.svg" alt="">
+                <img class="berry b1" src="assets/lime.svg" alt="">
+                <img class="berry b2" src="assets/lime.svg" alt="">
+                <img class="berry b3" src="assets/lime.svg" alt="">
+                <img class="berry b4" src="assets/lime.svg" alt="">
+                <img class="berry b5" src="assets/lime.svg" alt="">
+                <img class="berry b6" src="assets/lime.svg" alt="">
             </div>
 
             <div class="hero-right">
                 <div class="product-carousel">
                     <div class="carousel-cards">
-                        <div class="card active" data-flavor="paloma">
-                            <div class="mini-can flavor-paloma">
+                        <div class="card active" data-flavor="pinelime">
+                            <div class="mini-can flavor-pinelime">
                                 <img src="assets/compa-logo.png" alt="">
-                                <span>PALOMA</span>
+                                <span>RANCH WATER</span>
                             </div>
                             <div class="card-info">
-                                <span>Paloma</span>
-                                <span>Grapefruit Seltzer</span>
+                                <span>Ranch Water</span>
+                                <span>Tequila &amp; Pine Lime</span>
                             </div>
                         </div>
-                        <div class="card" data-flavor="margarita">
-                            <div class="mini-can flavor-margarita">
+                        <div class="card" data-flavor="grapefruit">
+                            <div class="mini-can flavor-grapefruit">
                                 <img src="assets/compa-logo.png" alt="">
-                                <span>MARGARITA</span>
+                                <span>GRAPEFRUIT</span>
                             </div>
                             <div class="card-info">
-                                <span>Margarita</span>
-                                <span>Lime Seltzer</span>
+                                <span>Grapefruit</span>
+                                <span>&amp; Blood Orange</span>
+                            </div>
+                        </div>
+                        <div class="card" data-flavor="passionfruit">
+                            <div class="mini-can flavor-passionfruit">
+                                <img src="assets/compa-logo.png" alt="">
+                                <span>PASSION</span>
+                            </div>
+                            <div class="card-info">
+                                <span>Passionfruit</span>
+                                <span>Tequila &amp; Passionfruit</span>
+                            </div>
+                        </div>
+                        <div class="card" data-flavor="ranchlime">
+                            <div class="mini-can flavor-ranchlime">
+                                <img src="assets/compa-logo.png" alt="">
+                                <span>RANCH WATER</span>
+                            </div>
+                            <div class="card-info">
+                                <span>Ranch Water</span>
+                                <span>Tequila &amp; Lime</span>
                             </div>
                         </div>
                     </div>
@@ -1193,6 +1246,7 @@
     <div style="display: none;">
         <img src="assets/lime.svg" alt="">
         <img src="assets/grapefruit.svg" alt="">
+        <img src="assets/passionfruit.svg" alt="">
     </div>
 
     <script>
@@ -1211,8 +1265,8 @@
             modelOk = false;
             canStage.classList.remove('model-ready');
         });
-        // Warm the cache for both flavors so the switch swap is instant
-        ['assets/can-paloma.glb', 'assets/can-margarita.glb'].forEach(u => {
+        // Warm the cache for every flavor so the switch swap is instant
+        ['assets/can-pine-lime.glb', 'assets/can-grapefruit.glb', 'assets/can-passionfruit.glb', 'assets/can-ranch-lime.glb'].forEach(u => {
             fetch(u).catch(() => { });
         });
         const berriesFG = document.querySelector('.berries-container');
@@ -1241,26 +1295,46 @@
         });
 
         const FLAVORS = {
-            paloma: {
-                colors: { inner: '#b5484f', mid: '#5f2129', outer: '#150507' },
+            pinelime: {
+                colors: { inner: '#d97a26', mid: '#7a3f0e', outer: '#1b0c02' },
                 bodyClass: null,
-                canClass: 'flavor-paloma',
-                label: 'Paloma',
-                model: 'assets/can-paloma.glb',
+                canClass: 'flavor-pinelime',
+                label: 'Ranch Water',
+                abv: '330mL · 6.0% ALC/VOL',
+                model: 'assets/can-pine-lime.glb',
+                citrus: 'assets/lime.svg'
+            },
+            grapefruit: {
+                colors: { inner: '#b5484f', mid: '#5f2129', outer: '#150507' },
+                bodyClass: 'theme-grapefruit',
+                canClass: 'flavor-grapefruit',
+                label: 'Grapefruit',
+                abv: '330mL · 4.0% ALC/VOL',
+                model: 'assets/can-grapefruit.glb',
                 citrus: 'assets/grapefruit.svg'
             },
-            margarita: {
-                colors: { inner: '#6f9d23', mid: '#3a5510', outer: '#0d1402' },
-                bodyClass: 'theme-margarita',
-                canClass: 'flavor-margarita',
-                label: 'Margarita',
-                model: 'assets/can-margarita.glb',
+            passionfruit: {
+                colors: { inner: '#a5326e', mid: '#571738', outer: '#140409' },
+                bodyClass: 'theme-passionfruit',
+                canClass: 'flavor-passionfruit',
+                label: 'Passionfruit',
+                abv: '330mL · 4.0% ALC/VOL',
+                model: 'assets/can-passionfruit.glb',
+                citrus: 'assets/passionfruit.svg'
+            },
+            ranchlime: {
+                colors: { inner: '#3e8fc4', mid: '#1d4a68', outer: '#051019' },
+                bodyClass: 'theme-ranchlime',
+                canClass: 'flavor-ranchlime',
+                label: 'Ranch Water',
+                abv: '330mL · 6.0% ALC/VOL',
+                model: 'assets/can-ranch-lime.glb',
                 citrus: 'assets/lime.svg'
             }
         };
 
-        const THEME_CLASSES = ['theme-margarita'];
-        const CAN_CLASSES = ['flavor-paloma', 'flavor-margarita'];
+        const THEME_CLASSES = ['theme-grapefruit', 'theme-passionfruit', 'theme-ranchlime'];
+        const CAN_CLASSES = ['flavor-pinelime', 'flavor-grapefruit', 'flavor-passionfruit', 'flavor-ranchlime'];
 
         cards.forEach(card => {
             card.addEventListener('click', () => {
@@ -1308,6 +1382,7 @@
                     productCan.classList.remove(...CAN_CLASSES);
                     productCan.classList.add(config.canClass);
                     canFlavorName.textContent = config.label;
+                    document.getElementById('can-abv').textContent = config.abv;
                     canViewer.src = config.model;
 
                     gsap.to(spinObj, {
@@ -1324,6 +1399,11 @@
                             switchSpin = 0;
                             productCan.style.filter = 'drop-shadow(0 40px 60px rgba(0,0,0,0.5))';
                             canViewer.style.filter = 'none';
+                            // Snap the orbit back to 0 so it doesn't unwind 720° in reverse
+                            if (modelOk) {
+                                canViewer.cameraOrbit = `${currentMouse.x * 40}deg ${88 + (currentMouse.y * 14)}deg 105%`;
+                                if (canViewer.jumpCameraToGoal) canViewer.jumpCameraToGoal();
+                            }
                         }
                     });
                 }
