@@ -571,9 +571,9 @@
                 <div class="row"><span>Shipping</span><span>${ship === 0 ? 'FREE' : money(ship)}</span></div>
                 <div class="row total"><span>Total</span><span>${money(sub + ship)}</span></div>
                 ${ship > 0 ? `<div class="free-ship-note">Add ${money(toFree)} more for free shipping</div>` : ''}
-                <button class="primary-btn checkout-btn" id="checkout-btn">Place Order <span class="plus-icon">→</span></button>
-                <div class="order-note">Online payments are coming soon — for now this sends your
-                order to us by email and we'll reply with payment details.</div>`;
+                <button class="primary-btn checkout-btn" id="checkout-btn">Checkout <span class="plus-icon">→</span></button>
+                <div class="order-note">Secure card checkout powered by Stripe. 18+ only — ID is
+                checked on delivery. If checkout is ever unavailable we'll take your order by email instead.</div>`;
             document.getElementById('checkout-btn').addEventListener('click', checkout);
         }
 
@@ -587,7 +587,35 @@
             renderCart();
         });
 
-        function checkout() {
+        async function checkout() {
+            const entries = Object.entries(cart).filter(([sku, qty]) => PRODUCTS[sku] && qty > 0);
+            if (entries.length === 0) return;
+
+            // Real payments: a Pages Function creates a Stripe Checkout session
+            // (prices are validated server-side). If Stripe isn't configured or
+            // reachable, fall back to the email order flow below.
+            const btn = document.getElementById('checkout-btn');
+            btn.disabled = true;
+            const oldLabel = btn.firstChild.textContent;
+            btn.firstChild.textContent = 'Un momento… ';
+            try {
+                const res = await fetch('/api/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ items: cart })
+                });
+                const data = await res.json().catch(() => ({}));
+                if (res.ok && data.url) {
+                    window.location.href = data.url;
+                    return;
+                }
+            } catch (e) { /* fall through to email */ }
+            btn.disabled = false;
+            btn.firstChild.textContent = oldLabel;
+            emailOrder();
+        }
+
+        function emailOrder() {
             const entries = Object.entries(cart).filter(([sku, qty]) => PRODUCTS[sku] && qty > 0);
             if (entries.length === 0) return;
             const sub = cartSubtotal();

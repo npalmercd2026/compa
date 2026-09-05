@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Order Confirmed | Compa Drinks Co</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="assets/lime.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500&family=Manrope:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/site.css">
+    <style>
+        .success-wrap {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .success-wrap .page-title {
+            margin-bottom: 1rem;
+        }
+
+        .success-wrap .lede {
+            margin: 0 auto 2.2rem;
+        }
+    </style>
+</head>
+
+<body class="page-tequila">
+
+    <div id="bubbles-container"></div>
+
+    <div class="floaters" aria-hidden="true">
+        <img src="assets/lime.svg" alt="" style="top: 18%; left: 6%; width: 100px;">
+        <img src="assets/grapefruit.svg" alt="" style="top: 30%; right: 6%; width: 90px; opacity: 0.6;">
+        <img src="assets/passionfruit.svg" alt="" style="bottom: 14%; left: 10%; width: 70px; opacity: 0.55;">
+    </div>
+
+    <header class="header">
+        <div class="logo">
+            <a href="index.html"><img src="assets/compa-logo.png" alt="Compa Drinks Co"></a>
+        </div>
+        <nav class="nav glass">
+            <a href="index.html" class="nav-item">Our Seltzers</a>
+            <a href="shop.html" class="nav-item">Shop</a>
+            <a href="our-story.html" class="nav-item">Our Story</a>
+            <a href="tequila.html" class="nav-item">Tequila</a>
+            <a href="stockists.html" class="nav-item">Stockists</a>
+            <a href="contact.html" class="nav-item">Contact</a>
+        </nav>
+        <a class="contact-btn" href="shop.html">Back To Shop</a>
+        <button class="menu-btn" id="menu-btn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+    </header>
+
+    <div class="mobile-menu" id="mobile-menu">
+        <button class="menu-close" id="menu-close" aria-label="Close menu">✕</button>
+        <a href="index.html">Our Seltzers</a>
+        <a href="shop.html">Shop</a>
+        <a href="our-story.html">Our Story</a>
+        <a href="tequila.html">Tequila</a>
+        <a href="stockists.html">Stockists</a>
+        <a href="contact.html">Contact</a>
+        <img src="assets/compa-logo.png" alt="" class="menu-logo">
+    </div>
+
+    <main class="page">
+        <div class="success-wrap">
+            <span class="kicker reveal">Order Confirmed</span>
+            <h1 class="page-title reveal d1">
+                ¡Gracias,<br><span class="outline">Amigo!</span>
+            </h1>
+            <p class="lede reveal d2">
+                Your payment went through and your cans are getting packed.
+                A receipt is on its way to your inbox — the esky is on its way soon after.
+                Remember: ID gets checked on delivery.
+            </p>
+            <a class="primary-btn reveal d3" href="index.html">Back To The Seltzers <span
+                    class="plus-icon">+</span></a>
+        </div>
+    </main>
+
+    <div class="drinkwise">Please drink responsibly. Get the facts: DrinkWise.org.au</div>
+
+    <script src="assets/site.js"></script>
+    <script>
+        // The order is placed — start the next one fresh
+        try { localStorage.removeItem('compa_cart'); } catch (e) { }
+    </script>
+</body>
+
+</html>
