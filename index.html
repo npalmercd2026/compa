@@ -106,6 +106,111 @@
             }
         }
 
+        /* ============ Loading screen ============ */
+        .loader {
+            position: fixed;
+            inset: 0;
+            z-index: 900;
+            background: radial-gradient(circle at 50% 38%, #b35d15 0%, #5c2f08 55%, #180b01 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2.4rem;
+            transition: opacity 0.7s ease, visibility 0.7s ease;
+        }
+
+        .loader.done {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-logo {
+            width: 190px;
+            animation: loaderPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes loaderPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.07);
+            }
+        }
+
+        .loader-orbit {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            animation: loaderSpin 2.8s linear infinite;
+        }
+
+        .loader-orbit img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 44px;
+            height: 44px;
+            margin: -22px;
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
+        }
+
+        .loader-orbit img:nth-child(1) {
+            transform: translateY(-52px);
+        }
+
+        .loader-orbit img:nth-child(2) {
+            transform: rotate(120deg) translateY(-52px);
+        }
+
+        .loader-orbit img:nth-child(3) {
+            transform: rotate(240deg) translateY(-52px);
+        }
+
+        @keyframes loaderSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loader-text {
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.32em;
+            padding-left: 0.32em;
+            text-transform: uppercase;
+            color: var(--muted-color);
+        }
+
+        .loader-text .dots span {
+            animation: dotBlink 1.4s infinite;
+        }
+
+        .loader-text .dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loader-text .dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes dotBlink {
+
+            0%,
+            60%,
+            100% {
+                opacity: 0.2;
+            }
+
+            30% {
+                opacity: 1;
+            }
+        }
+
         /* ============ Header ============ */
         .header {
             display: flex;
@@ -459,19 +564,11 @@
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            perspective: 1400px;
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        .compa-can {
-            position: relative;
             width: 30vh;
             height: 64vh;
-            transform-style: preserve-3d;
-            filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.5));
-            will-change: transform, filter;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 10;
         }
 
         /* 3D can (Higgsfield-generated GLB, rendered with model-viewer) */
@@ -493,118 +590,6 @@
 
         .can-stage.model-ready #can-3d {
             opacity: 1;
-        }
-
-        /* Hide the CSS-built fallback can once the 3D model is live */
-        .can-stage.model-ready .compa-can {
-            opacity: 0;
-        }
-
-        .compa-can {
-            transition: opacity 0.6s ease;
-        }
-
-        .can-lid,
-        .can-base {
-            position: absolute;
-            left: 3%;
-            right: 3%;
-            height: 2.6%;
-            background: linear-gradient(#f0f0f0, #8d8d8d);
-            border-radius: 50% / 100%;
-            z-index: 2;
-        }
-
-        .can-lid {
-            top: 0;
-        }
-
-        .can-base {
-            bottom: 0;
-            background: linear-gradient(#a8a8a8, #5c5c5c);
-        }
-
-        .can-body {
-            position: absolute;
-            top: 1.4%;
-            bottom: 1.4%;
-            left: 0;
-            right: 0;
-            border-radius: 18px / 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 1.2rem;
-            overflow: hidden;
-            box-shadow:
-                inset -22px 0 38px rgba(0, 0, 0, 0.38),
-                inset 22px 0 34px rgba(0, 0, 0, 0.28),
-                inset 0 6px 12px rgba(255, 255, 255, 0.12);
-            transition: background 0.4s ease;
-        }
-
-        .compa-can.flavor-pinelime .can-body {
-            background: linear-gradient(165deg, #f59a3c 0%, #e0700f 55%, #8a3d08 100%);
-        }
-
-        .compa-can.flavor-grapefruit .can-body {
-            background: linear-gradient(165deg, #e05a4a 0%, #c02d24 55%, #6b130e 100%);
-        }
-
-        .compa-can.flavor-passionfruit .can-body {
-            background: linear-gradient(165deg, #b64a86 0%, #8d2760 55%, #4a1030 100%);
-        }
-
-        .compa-can.flavor-ranchlime .can-body {
-            background: linear-gradient(165deg, #7cc0e8 0%, #3d95c9 55%, #175a83 100%);
-        }
-
-        /* sheen */
-        .can-body::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 16%;
-            width: 11%;
-            background: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.06) 60%, rgba(255, 255, 255, 0.2));
-            border-radius: 100px;
-            filter: blur(2px);
-            opacity: 0.55;
-        }
-
-        .can-logo {
-            width: 78%;
-            height: auto;
-        }
-
-        .can-flavor {
-            font-family: var(--font-heading);
-            font-size: clamp(1.6rem, 3.4vh, 2.6rem);
-            letter-spacing: 0.28em;
-            padding-left: 0.28em;
-            color: var(--text-color);
-            text-transform: uppercase;
-        }
-
-        .can-tag {
-            font-family: 'Manrope', sans-serif;
-            font-size: 0.62rem;
-            letter-spacing: 0.35em;
-            padding-left: 0.35em;
-            color: rgba(255, 249, 236, 0.75);
-            text-transform: uppercase;
-        }
-
-        .can-abv {
-            position: absolute;
-            bottom: 7%;
-            font-family: 'Manrope', sans-serif;
-            font-size: 0.6rem;
-            letter-spacing: 0.2em;
-            color: rgba(255, 249, 236, 0.55);
-            text-transform: uppercase;
         }
 
         /* Floating citrus */
@@ -690,7 +675,6 @@
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             padding: 1rem;
-            padding-top: 4.4rem;
             border-radius: 28px;
             display: flex;
             flex-direction: column;
@@ -713,58 +697,18 @@
             border-color: var(--accent-color);
         }
 
-        .mini-can {
-            position: relative;
-            width: 66px;
-            height: 116px;
-            margin-top: -4.6rem;
-            border-radius: 8px / 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.35rem;
-            box-shadow:
-                inset -8px 0 12px rgba(0, 0, 0, 0.35),
-                inset 8px 0 10px rgba(0, 0, 0, 0.25);
-            filter: drop-shadow(0 16px 26px rgba(0, 0, 0, 0.5));
-            border-top: 3px solid #c9c9c9;
-            border-bottom: 3px solid #7d7d7d;
-            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-            will-change: transform;
+        /* 3D mini can inside each flavor card */
+        .card .card-can {
+            width: 100%;
+            height: 150px;
+            --poster-color: transparent;
             pointer-events: none;
+            filter: drop-shadow(0 14px 20px rgba(0, 0, 0, 0.45));
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .card:hover .mini-can {
-            transform: translateY(-24px) rotate(-10deg) scale(1.12) !important;
-        }
-
-        .mini-can.flavor-pinelime {
-            background: linear-gradient(165deg, #f59a3c 0%, #e0700f 55%, #8a3d08 100%);
-        }
-
-        .mini-can.flavor-grapefruit {
-            background: linear-gradient(165deg, #e05a4a 0%, #c02d24 55%, #6b130e 100%);
-        }
-
-        .mini-can.flavor-passionfruit {
-            background: linear-gradient(165deg, #b64a86 0%, #8d2760 55%, #4a1030 100%);
-        }
-
-        .mini-can.flavor-ranchlime {
-            background: linear-gradient(165deg, #7cc0e8 0%, #3d95c9 55%, #175a83 100%);
-        }
-
-        .mini-can img {
-            width: 78%;
-        }
-
-        .mini-can span {
-            font-family: var(--font-heading);
-            font-size: 0.55rem;
-            letter-spacing: 0.22em;
-            padding-left: 0.22em;
-            color: var(--text-color);
+        .card:hover .card-can {
+            transform: translateY(-8px) scale(1.08);
         }
 
         .card-info {
@@ -889,13 +833,10 @@
 
         /* ============ Tablet ============ */
         @media (max-width: 1200px) {
-            .compa-can {
-                width: 26vh;
-                height: 55vh;
-            }
-
             .can-stage {
                 top: 42%;
+                width: 26vh;
+                height: 55vh;
             }
 
             .hero-content {
@@ -1073,10 +1014,6 @@
                 gap: 0.3rem;
             }
 
-            .mini-can {
-                display: none;
-            }
-
             .card-can {
                 width: 100%;
                 height: 46vh;
@@ -1125,8 +1062,7 @@
 
         @media (prefers-reduced-motion: reduce) {
 
-            .hero-center,
-            .mini-can {
+            .hero-center {
                 animation: none !important;
                 transition: none !important;
                 opacity: 1;
@@ -1149,6 +1085,16 @@
             <button class="gate-yes" id="gate-yes">Sí, I am</button>
             <a class="gate-no" href="https://drinkwise.org.au" target="_blank" rel="noopener">No, I'm not</a>
         </div>
+    </div>
+
+    <div class="loader" id="loader" aria-hidden="true">
+        <img class="loader-logo" src="assets/compa-logo.png" alt="">
+        <div class="loader-orbit">
+            <img src="assets/lime.svg" alt="">
+            <img src="assets/grapefruit.svg" alt="">
+            <img src="assets/passionfruit.svg" alt="">
+        </div>
+        <div class="loader-text">Cracking one open<span class="dots"><span>.</span><span>.</span><span>.</span></span></div>
     </div>
 
     <div id="bubbles-container"></div>
@@ -1234,16 +1180,6 @@
                         camera-orbit="0deg 88deg 105%" field-of-view="28deg">
                         <div slot="progress-bar"></div>
                     </model-viewer>
-                    <div id="product-can" class="compa-can flavor-pinelime">
-                        <div class="can-lid"></div>
-                        <div class="can-body">
-                            <img class="can-logo" src="assets/compa-logo.png" alt="Compa">
-                            <div class="can-flavor" id="can-flavor-name">Ranch Water</div>
-                            <div class="can-tag">Tequila Seltzer</div>
-                            <div class="can-abv" id="can-abv">330mL · 6.0% ALC/VOL</div>
-                        </div>
-                        <div class="can-base"></div>
-                    </div>
                 </div>
             </div>
 
@@ -1260,40 +1196,48 @@
                 <div class="product-carousel">
                     <div class="carousel-cards">
                         <div class="card active" data-flavor="pinelime">
-                            <div class="mini-can flavor-pinelime">
-                                <img src="assets/compa-logo.png" alt="">
-                                <span>RANCH WATER</span>
-                            </div>
+                            <model-viewer class="card-can" src="assets/can-pine-lime.glb" alt="Compa Ranch Water Pine Lime can in 3D" auto-rotate
+                                auto-rotate-delay="0" rotation-per-second="20deg" camera-orbit="0deg 86deg 105%"
+                                field-of-view="28deg" interaction-prompt="none" shadow-intensity="0" disable-zoom
+                                disable-pan disable-tap>
+                                <div slot="progress-bar"></div>
+                            </model-viewer>
                             <div class="card-info">
                                 <span>Ranch Water</span>
                                 <span>Tequila &amp; Pine Lime</span>
                             </div>
                         </div>
                         <div class="card" data-flavor="grapefruit">
-                            <div class="mini-can flavor-grapefruit">
-                                <img src="assets/compa-logo.png" alt="">
-                                <span>GRAPEFRUIT</span>
-                            </div>
+                            <model-viewer class="card-can" src="assets/can-grapefruit.glb" alt="Compa Grapefruit & Blood Orange can in 3D" auto-rotate
+                                auto-rotate-delay="0" rotation-per-second="20deg" camera-orbit="0deg 86deg 105%"
+                                field-of-view="28deg" interaction-prompt="none" shadow-intensity="0" disable-zoom
+                                disable-pan disable-tap>
+                                <div slot="progress-bar"></div>
+                            </model-viewer>
                             <div class="card-info">
                                 <span>Grapefruit</span>
                                 <span>&amp; Blood Orange</span>
                             </div>
                         </div>
                         <div class="card" data-flavor="passionfruit">
-                            <div class="mini-can flavor-passionfruit">
-                                <img src="assets/compa-logo.png" alt="">
-                                <span>PASSION</span>
-                            </div>
+                            <model-viewer class="card-can" src="assets/can-passionfruit.glb" alt="Compa Passionfruit can in 3D" auto-rotate
+                                auto-rotate-delay="0" rotation-per-second="20deg" camera-orbit="0deg 86deg 105%"
+                                field-of-view="28deg" interaction-prompt="none" shadow-intensity="0" disable-zoom
+                                disable-pan disable-tap>
+                                <div slot="progress-bar"></div>
+                            </model-viewer>
                             <div class="card-info">
                                 <span>Passionfruit</span>
                                 <span>Tequila &amp; Passionfruit</span>
                             </div>
                         </div>
                         <div class="card" data-flavor="ranchlime">
-                            <div class="mini-can flavor-ranchlime">
-                                <img src="assets/compa-logo.png" alt="">
-                                <span>RANCH WATER</span>
-                            </div>
+                            <model-viewer class="card-can" src="assets/can-ranch-lime.glb" alt="Compa Ranch Water Lime can in 3D" auto-rotate
+                                auto-rotate-delay="0" rotation-per-second="20deg" camera-orbit="0deg 86deg 105%"
+                                field-of-view="28deg" interaction-prompt="none" shadow-intensity="0" disable-zoom
+                                disable-pan disable-tap>
+                                <div slot="progress-bar"></div>
+                            </model-viewer>
                             <div class="card-info">
                                 <span>Ranch Water</span>
                                 <span>Tequila &amp; Lime</span>
@@ -1328,23 +1272,33 @@
     </div>
 
     <script>
-        const productCan = document.querySelector('#product-can');
         const canStage = document.getElementById('can-stage');
         const canViewer = document.getElementById('can-3d');
-        const canFlavorName = document.getElementById('can-flavor-name');
 
         // Phones hide the hero can entirely — skip the heavy GLB downloads there
         const noHeroCan = window.matchMedia('(max-width: 768px)').matches;
 
-        // 3D can: reveal once the GLB is in, keep the CSS can as fallback otherwise
+        // Loading screen: hold the motion graphic until the first 3D can is in
+        const loader = document.getElementById('loader');
+        function hideLoader() {
+            loader.classList.add('done');
+        }
+        setTimeout(hideLoader, 7000); // never trap the visitor if a model stalls
+
         let modelOk = false;
         canViewer.addEventListener('load', () => {
             modelOk = true;
             canStage.classList.add('model-ready');
+            hideLoader();
         });
         canViewer.addEventListener('error', () => {
             modelOk = false;
             canStage.classList.remove('model-ready');
+            hideLoader();
+        });
+        // On phones the card cans are the show — reveal on the first one ready
+        document.querySelectorAll('.card-can').forEach(mv => {
+            mv.addEventListener('load', hideLoader, { once: true });
         });
         if (noHeroCan) {
             // The hidden hero viewer stays empty; each slide carries its own can
@@ -1428,7 +1382,6 @@
         };
 
         const THEME_CLASSES = ['theme-grapefruit', 'theme-passionfruit', 'theme-ranchlime'];
-        const CAN_CLASSES = ['flavor-pinelime', 'flavor-grapefruit', 'flavor-passionfruit', 'flavor-ranchlime'];
 
         cards.forEach(card => {
             card.addEventListener('click', () => {
@@ -1445,31 +1398,8 @@
             });
         });
 
-        // ===== Mobile: full-screen 3D slides =====
+        // ===== Mobile: the card cans are full-screen slides =====
         if (noHeroCan) {
-            // Put a real rotating 3D can inside each flavor card
-            cards.forEach(card => {
-                const config = FLAVORS[card.dataset.flavor];
-                const mv = document.createElement('model-viewer');
-                mv.className = 'card-can';
-                mv.src = config.model;
-                mv.alt = 'Compa ' + config.label + ' can in 3D';
-                mv.setAttribute('auto-rotate', '');
-                mv.setAttribute('auto-rotate-delay', '0');
-                mv.setAttribute('rotation-per-second', '25deg');
-                mv.setAttribute('camera-orbit', '0deg 86deg 105%');
-                mv.setAttribute('field-of-view', '28deg');
-                mv.setAttribute('interaction-prompt', 'none');
-                mv.setAttribute('shadow-intensity', '0');
-                mv.setAttribute('disable-zoom', '');
-                mv.setAttribute('disable-pan', '');
-                mv.setAttribute('disable-tap', '');
-                const bar = document.createElement('div');
-                bar.slot = 'progress-bar';
-                mv.appendChild(bar);
-                card.insertBefore(mv, card.firstChild);
-            });
-
             // Whichever slide settles in the center picks the flavor theme
             const scroller = document.querySelector('.carousel-cards');
             const body = document.body;
@@ -1580,17 +1510,12 @@
                 ease: "power2.in",
                 onUpdate: () => {
                     switchSpin = spinObj.val;
-                    productCan.style.filter = `blur(${spinObj.blur}px) drop-shadow(0 40px 60px rgba(0,0,0,0.5))`;
                     canViewer.style.filter = spinObj.blur > 0.5 ? `blur(${spinObj.blur}px)` : 'none';
                 },
                 onComplete: () => {
                     // SWAP at peak
                     body.classList.remove(...THEME_CLASSES);
                     if (config.bodyClass) body.classList.add(config.bodyClass);
-                    productCan.classList.remove(...CAN_CLASSES);
-                    productCan.classList.add(config.canClass);
-                    canFlavorName.textContent = config.label;
-                    document.getElementById('can-abv').textContent = config.abv;
                     if (!noHeroCan) canViewer.src = config.model;
 
                     gsap.to(spinObj, {
@@ -1600,12 +1525,10 @@
                         ease: "back.out(0.7)",
                         onUpdate: () => {
                             switchSpin = spinObj.val;
-                            productCan.style.filter = `blur(${spinObj.blur}px) drop-shadow(0 40px 60px rgba(0,0,0,0.5))`;
                             canViewer.style.filter = spinObj.blur > 0.5 ? `blur(${spinObj.blur}px)` : 'none';
                         },
                         onComplete: () => {
                             switchSpin = 0;
-                            productCan.style.filter = 'drop-shadow(0 40px 60px rgba(0,0,0,0.5))';
                             canViewer.style.filter = 'none';
                             // Snap the orbit back to 0 so it doesn't unwind 720° in reverse
                             if (modelOk) {
@@ -1713,11 +1636,7 @@
             currentMouse.x += (mouse.x - currentMouse.x) * 0.05;
             currentMouse.y += (mouse.y - currentMouse.y) * 0.05;
 
-            // Tilt the can toward the cursor + add switch spin
-            productCan.style.transform =
-                `rotate(6deg) rotateY(${(currentMouse.x * 40) + switchSpin}deg) rotateX(${currentMouse.y * -20}deg)`;
-
-            // Same motion on the 3D can, via its camera orbit
+            // Tilt the 3D can toward the cursor + add switch spin, via its camera orbit
             if (modelOk) {
                 const theta = (currentMouse.x * 40) + switchSpin;
                 const phi = 88 + (currentMouse.y * 14);
