@@ -106,7 +106,11 @@
             width: 100%;
             height: 100%;
             --poster-color: transparent;
-            pointer-events: none;
+            cursor: grab;
+        }
+
+        .product-can:active {
+            cursor: grabbing;
         }
 
         .product .art.case {
@@ -360,9 +364,9 @@
     <div id="bubbles-container"></div>
 
     <div class="floaters" aria-hidden="true">
-        <img src="assets/lime.svg" alt="" style="top: 16%; left: 4%; width: 90px;">
-        <img src="assets/grapefruit.svg" alt="" style="top: 48%; right: 4%; width: 110px; opacity: 0.5;">
-        <img src="assets/passionfruit.svg" alt="" style="bottom: 12%; left: 7%; width: 70px; opacity: 0.55;">
+        <img src="assets/fruit-lime.webp" alt="" style="top: 16%; left: 4%; width: 90px;">
+        <img src="assets/fruit-grapefruit.webp" alt="" style="top: 48%; right: 4%; width: 110px; opacity: 0.5;">
+        <img src="assets/fruit-passionfruit.webp" alt="" style="bottom: 12%; left: 7%; width: 70px; opacity: 0.55;">
     </div>
 
     <header class="header">
@@ -484,10 +488,11 @@
             el.className = 'product card-glass reveal d' + Math.min(i + 1, 3);
             const art = p.caseImgs
                 ? `<div class="art case">${p.caseImgs.map(s => `<img src="${s}" alt="">`).join('')}</div>`
-                : `<div class="art"><model-viewer class="product-can" src="${p.glb}" alt="${p.name} can in 3D"
-                        auto-rotate auto-rotate-delay="0" rotation-per-second="20deg"
+                : `<div class="art"><model-viewer class="product-can" src="${p.glb}" alt="${p.name} can in 3D — drag to spin"
+                        camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="20deg"
                         camera-orbit="0deg 86deg 105%" field-of-view="28deg" interaction-prompt="none"
-                        shadow-intensity="0" disable-zoom disable-pan disable-tap><div slot="progress-bar"></div></model-viewer></div>`;
+                        min-camera-orbit="-Infinity 65deg auto" max-camera-orbit="Infinity 115deg auto"
+                        shadow-intensity="0" disable-zoom disable-pan touch-action="pan-y"><div slot="progress-bar"></div><div slot="pan-target" style="display:none"></div></model-viewer></div>`;
             el.innerHTML = `${art}
                 <h3>${p.name}</h3>
                 <div class="sub">${p.sub}</div>

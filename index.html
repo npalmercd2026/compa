@@ -624,6 +624,13 @@
             will-change: transform;
         }
 
+        /* Foreground slices are live 3D fruit on desktop */
+        model-viewer.berry {
+            --poster-color: transparent;
+            background: transparent;
+            pointer-events: none;
+        }
+
         .b1 { top: 25%; left: 30%; width: 150px; height: 150px; }
         .b2 { top: 60%; left: 42%; width: 80px; height: 80px; }
         .b3 { top: 30%; left: 62%; width: 170px; height: 170px; }
@@ -1090,9 +1097,9 @@
     <div class="loader" id="loader" aria-hidden="true">
         <img class="loader-logo" src="assets/compa-logo.png" alt="">
         <div class="loader-orbit">
-            <img src="assets/lime.svg" alt="">
-            <img src="assets/grapefruit.svg" alt="">
-            <img src="assets/passionfruit.svg" alt="">
+            <img src="assets/fruit-lime.webp" alt="">
+            <img src="assets/fruit-grapefruit.webp" alt="">
+            <img src="assets/fruit-passionfruit.webp" alt="">
         </div>
         <div class="loader-text">Cracking one open<span class="dots"><span>.</span><span>.</span><span>.</span></span></div>
     </div>
@@ -1132,10 +1139,10 @@
         <div class="hero-content">
 
             <div class="leaves-container">
-                <img class="leaf l1" src="assets/lime.svg" alt="">
-                <img class="leaf l2" src="assets/grapefruit.svg" alt="">
-                <img class="leaf l3" src="assets/lime.svg" alt="">
-                <img class="leaf l4" src="assets/grapefruit.svg" alt="">
+                <img class="leaf l1" src="assets/fruit-lime.webp" alt="">
+                <img class="leaf l2" src="assets/fruit-grapefruit.webp" alt="">
+                <img class="leaf l3" src="assets/fruit-lime.webp" alt="">
+                <img class="leaf l4" src="assets/fruit-grapefruit.webp" alt="">
             </div>
 
             <div class="hero-left">
@@ -1157,7 +1164,7 @@
                 </div>
                 <div class="award-badge">
                     <div class="award-icon">
-                        <img src="assets/lime.svg" alt="">
+                        <img src="assets/fruit-lime.webp" alt="">
                     </div>
                     <div class="award-text">
                         <span class="award-title">100% BLUE AGAVE</span>
@@ -1167,9 +1174,9 @@
             </div>
 
             <div class="berries-container-bg">
-                <img class="berry b7" src="assets/lime.svg" alt="">
-                <img class="berry b8" src="assets/lime.svg" alt="">
-                <img class="berry b9" src="assets/lime.svg" alt="">
+                <img class="berry b7" src="assets/fruit-lime.webp" alt="">
+                <img class="berry b8" src="assets/fruit-pineapple.webp" alt="">
+                <img class="berry b9" src="assets/fruit-lime.webp" alt="">
             </div>
 
             <div class="hero-center">
@@ -1184,12 +1191,12 @@
             </div>
 
             <div class="berries-container">
-                <img class="berry b1" src="assets/lime.svg" alt="">
-                <img class="berry b2" src="assets/lime.svg" alt="">
-                <img class="berry b3" src="assets/lime.svg" alt="">
-                <img class="berry b4" src="assets/lime.svg" alt="">
-                <img class="berry b5" src="assets/lime.svg" alt="">
-                <img class="berry b6" src="assets/lime.svg" alt="">
+                <img class="berry b1" src="assets/fruit-lime.webp" alt="">
+                <img class="berry b2" src="assets/fruit-pineapple.webp" alt="">
+                <img class="berry b3" src="assets/fruit-lime.webp" alt="">
+                <img class="berry b4" src="assets/fruit-pineapple.webp" alt="">
+                <img class="berry b5" src="assets/fruit-lime.webp" alt="">
+                <img class="berry b6" src="assets/fruit-pineapple.webp" alt="">
             </div>
 
             <div class="hero-right">
@@ -1266,9 +1273,11 @@
     </svg>
 
     <div style="display: none;">
-        <img src="assets/lime.svg" alt="">
-        <img src="assets/grapefruit.svg" alt="">
-        <img src="assets/passionfruit.svg" alt="">
+        <img src="assets/fruit-lime.webp" alt="">
+        <img src="assets/fruit-pineapple.webp" alt="">
+        <img src="assets/fruit-grapefruit.webp" alt="">
+        <img src="assets/fruit-bloodorange.webp" alt="">
+        <img src="assets/fruit-passionfruit.webp" alt="">
     </div>
 
     <script>
@@ -1305,10 +1314,49 @@
             canViewer.removeAttribute('src');
         } else {
             // Warm the cache for every flavor so the switch swap is instant
-            ['assets/can-pine-lime.glb', 'assets/can-grapefruit.glb', 'assets/can-passionfruit.glb', 'assets/can-ranch-lime.glb'].forEach(u => {
+            ['assets/can-pine-lime.glb', 'assets/can-grapefruit.glb', 'assets/can-passionfruit.glb', 'assets/can-ranch-lime.glb',
+             'assets/fruit-grapefruit.glb', 'assets/fruit-bloodorange.glb', 'assets/fruit-passionfruit.glb'].forEach(u => {
                 fetch(u).catch(() => { });
             });
         }
+        // ===== The floating citrus is real fruit, in real 3D =====
+        const FRUITS = {
+            lime: { glb: 'assets/fruit-lime.glb', img: 'assets/fruit-lime.webp' },
+            pineapple: { glb: 'assets/fruit-pineapple.glb', img: 'assets/fruit-pineapple.webp' },
+            grapefruit: { glb: 'assets/fruit-grapefruit.glb', img: 'assets/fruit-grapefruit.webp' },
+            bloodorange: { glb: 'assets/fruit-bloodorange.glb', img: 'assets/fruit-bloodorange.webp' },
+            passionfruit: { glb: 'assets/fruit-passionfruit.glb', img: 'assets/fruit-passionfruit.webp' }
+        };
+
+        // Desktop: the six foreground slices become live spinning 3D fruit.
+        // Phones and the blurred background depth layer keep light PNG renders
+        // of the same models — WebGL contexts are a finite budget.
+        if (!noHeroCan) {
+            document.querySelectorAll('.berries-container .berry').forEach((img, i) => {
+                const mv = document.createElement('model-viewer');
+                mv.className = img.className;
+                mv.setAttribute('auto-rotate', '');
+                mv.setAttribute('auto-rotate-delay', '0');
+                mv.setAttribute('rotation-per-second', (i % 2 ? -14 : 19) + 'deg');
+                mv.setAttribute('camera-orbit', (i * 47) + 'deg 78deg 108%');
+                mv.setAttribute('interaction-prompt', 'none');
+                mv.setAttribute('shadow-intensity', '0');
+                mv.setAttribute('disable-zoom', '');
+                mv.setAttribute('disable-pan', '');
+                mv.setAttribute('disable-tap', '');
+                const bar = document.createElement('div');
+                bar.setAttribute('slot', 'progress-bar');
+                mv.appendChild(bar);
+                img.replaceWith(mv);
+            });
+        }
+
+        function setBerryFruit(el, fruitKey) {
+            const f = FRUITS[fruitKey];
+            const src = el.tagName === 'MODEL-VIEWER' ? f.glb : f.img;
+            if (el.getAttribute('src') !== src) el.src = src;
+        }
+
         const berriesFG = document.querySelector('.berries-container');
         const berriesBG = document.querySelector('.berries-container-bg');
         const leavesBG = document.querySelector('.leaves-container');
@@ -1350,7 +1398,7 @@
                 label: 'Ranch Water',
                 abv: '330mL · 6.0% ALC/VOL',
                 model: 'assets/can-pine-lime.glb',
-                citrus: 'assets/lime.svg'
+                fruits: ['lime', 'pineapple']
             },
             grapefruit: {
                 colors: { inner: '#b5484f', mid: '#5f2129', outer: '#150507' },
@@ -1359,7 +1407,7 @@
                 label: 'Grapefruit',
                 abv: '330mL · 4.0% ALC/VOL',
                 model: 'assets/can-grapefruit.glb',
-                citrus: 'assets/grapefruit.svg'
+                fruits: ['grapefruit', 'bloodorange']
             },
             passionfruit: {
                 colors: { inner: '#a5326e', mid: '#571738', outer: '#140409' },
@@ -1368,7 +1416,7 @@
                 label: 'Passionfruit',
                 abv: '330mL · 4.0% ALC/VOL',
                 model: 'assets/can-passionfruit.glb',
-                citrus: 'assets/passionfruit.svg'
+                fruits: ['passionfruit', 'passionfruit']
             },
             ranchlime: {
                 colors: { inner: '#3e8fc4', mid: '#1d4a68', outer: '#051019' },
@@ -1377,11 +1425,14 @@
                 label: 'Ranch Water',
                 abv: '330mL · 6.0% ALC/VOL',
                 model: 'assets/can-ranch-lime.glb',
-                citrus: 'assets/lime.svg'
+                fruits: ['lime', 'lime']
             }
         };
 
         const THEME_CLASSES = ['theme-grapefruit', 'theme-passionfruit', 'theme-ranchlime'];
+
+        // Dress the floaters for the opening flavor
+        allBerries.forEach((b, i) => setBerryFruit(b, FLAVORS.pinelime.fruits[i % 2]));
 
         cards.forEach(card => {
             card.addEventListener('click', () => {
@@ -1426,8 +1477,8 @@
                     });
                     body.classList.remove(...THEME_CLASSES);
                     if (config.bodyClass) body.classList.add(config.bodyClass);
-                    // Match the floating citrus to the flavor
-                    allBerries.forEach(b => { b.src = config.citrus; });
+                    // Match the floating fruit to the flavor
+                    allBerries.forEach((b, i) => setBerryFruit(b, config.fruits[i % config.fruits.length]));
                 }, 120);
             }, { passive: true });
         }
@@ -1572,7 +1623,7 @@
                     duration: 0.5,
                     ease: "power2.in",
                     onComplete: () => {
-                        berry.src = config.citrus;
+                        setBerryFruit(berry, config.fruits[i % config.fruits.length]);
                     }
                 })
                     .to(berry, {
@@ -1688,7 +1739,8 @@
                     const floatY = Math.sin(phase) * 15;
                     const floatAngle = Math.cos(phase) * 6;
 
-                    berry.style.transform = `translate(calc(${rx + baseX}px), calc(${ry + baseY}px + ${floatY}px)) rotate(calc(${angle}deg + ${floatAngle}deg))`;
+                    const spin2d = berry.tagName === 'MODEL-VIEWER' ? 0 : angle;
+                    berry.style.transform = `translate(calc(${rx + baseX}px), calc(${ry + baseY}px + ${floatY}px)) rotate(calc(${spin2d}deg + ${floatAngle}deg))`;
                 });
             }
 
